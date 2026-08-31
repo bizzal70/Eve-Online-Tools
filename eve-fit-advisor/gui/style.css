@@ -33,6 +33,36 @@ header .tagline {
   font-size: 0.9em;
 }
 
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 4px;
+  width: 34px;
+  height: 34px;
+  font-size: 1.1em;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.settings-divider {
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
 main {
   max-width: 720px;
   margin: 0 auto;
@@ -129,6 +159,13 @@ button:disabled {
   margin: 4px 0 2px 0;
 }
 
+.fit-summary {
+  color: var(--muted);
+  font-size: 0.9em;
+  font-style: italic;
+  margin: 2px 0 8px 0;
+}
+
 .fit-score {
   color: var(--muted);
   font-size: 0.9em;
@@ -167,6 +204,47 @@ button:disabled {
 }
 
 .missing-item .need { color: var(--danger); }
+
+.notes-block {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #0e141b;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+}
+
+.notes-block h3 {
+  font-size: 0.85em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.notes-block ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.notes-block li {
+  margin: 4px 0;
+  font-size: 0.9em;
+}
+
+.verify-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.verdict-good {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.verdict-bad {
+  color: var(--danger);
+  font-weight: 600;
+}
 
 .alt-block {
   margin-top: 14px;

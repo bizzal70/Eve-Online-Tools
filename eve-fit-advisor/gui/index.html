@@ -7,30 +7,51 @@
 </head>
 <body>
   <header>
-    <h1>EVE Fit Advisor</h1>
-    <p class="tagline">Read-only. Logs in via EVE SSO, checks your active ship and skills, tells you the best fit on file.</p>
+    <div class="header-row">
+      <div>
+        <h1>EVE Fit Advisor</h1>
+        <p class="tagline">Read-only. Logs in via EVE SSO, checks your active ship and skills, tells you the best fit on file.</p>
+      </div>
+      <button id="settings-btn" class="icon-btn" type="button" title="Settings">&#9881;</button>
+    </div>
   </header>
 
   <main>
-    <section id="accounts-panel" class="panel hidden">
-      <label>Remembered characters</label>
-      <div id="accounts-list"></div>
-      <p class="hint">
-        <a href="#" id="switch-account-link">Log in with a different character</a>
-      </p>
-    </section>
-
-    <section id="setup-panel" class="panel hidden">
-      <label for="client-id">ESI App Client ID</label>
-      <div class="row">
-        <input type="text" id="client-id" placeholder="Paste your Client ID from developers.eveonline.com">
-        <button id="login-btn">Log In With EVE</button>
+    <section id="settings-panel" class="panel hidden">
+      <div id="accounts-section">
+        <label>Remembered characters</label>
+        <div id="accounts-list"></div>
+        <p class="hint">
+          <a href="#" id="switch-account-link">Log in with a different character</a>
+        </p>
       </div>
+
+      <div id="setup-panel" class="hidden">
+        <label for="client-id">ESI App Client ID</label>
+        <div class="row">
+          <input type="text" id="client-id" placeholder="Paste your Client ID from developers.eveonline.com">
+          <button id="login-btn">Log In With EVE</button>
+        </div>
+        <p class="hint">
+          Don't have one yet? See the README for the one-time setup steps
+          (register a free app at developers.eveonline.com, ~2 minutes).
+        </p>
+        <p class="hint hidden" id="cancel-switch-wrap"><a href="#" id="cancel-switch-link">Cancel</a></p>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <label>Anthropic API key</label>
       <p class="hint">
-        Don't have one yet? See the README for the one-time setup steps
-        (register a free app at developers.eveonline.com, ~2 minutes).
+        Used by the Claude AI research/double-check features below. Stored
+        locally, same as your EVE Client ID.
       </p>
-      <p class="hint hidden" id="cancel-switch-wrap"><a href="#" id="cancel-switch-link">Cancel</a></p>
+      <p class="hint hidden" id="anthropic-key-saved">
+        Anthropic API key saved. <a href="#" id="change-anthropic-key">Change</a>
+      </p>
+      <div class="row" id="anthropic-key-row">
+        <input type="password" id="anthropic-key" placeholder="Anthropic API key (sk-ant-...)">
+      </div>
     </section>
 
     <section id="status-panel" class="panel hidden">
@@ -44,6 +65,21 @@
     <section id="result-panel" class="panel hidden">
       <div id="result-header"></div>
       <div id="result-body"></div>
+    </section>
+
+    <section id="research-panel" class="panel hidden">
+      <label id="research-label">Research a fit with Claude AI</label>
+      <p class="hint">
+        Searches the web for what EVE players currently recommend, instead
+        of relying on what's already baked into this app. Uses your
+        Anthropic API key from &#9881; Settings -- typically a few cents per search.
+      </p>
+      <div class="row">
+        <input type="text" id="research-style" placeholder="Role, e.g. PvP, mining, mission running (optional)">
+        <button id="research-btn">Research with Claude</button>
+      </div>
+      <p id="research-status" class="hint"></p>
+      <div id="research-result"></div>
     </section>
   </main>
 

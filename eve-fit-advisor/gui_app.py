@@ -22,6 +22,10 @@ from core import (
     get_recommendation,
     get_recommendation_saved,
     list_saved_accounts,
+    research_fit,
+    save_custom_fit,
+    validate_fit_names,
+    verify_fit,
 )
 
 GUI_DIR = os.path.join(base_dir(), "gui")
@@ -62,6 +66,34 @@ class Api:
     def forget_account(self, char_id):
         forget_account(char_id)
         return {"ok": True}
+
+    def research_fit(self, ship_name, style_hint, api_key):
+        """Calls the Claude API (with live web search) to research a
+        current fit for a ship, using the caller's own Anthropic API key.
+        This is a paid call the user is opting into, separate from ESI."""
+        try:
+            fit = research_fit(ship_name, style_hint, api_key)
+            warnings = validate_fit_names(fit)
+            return {"ok": True, "fit": fit, "warnings": warnings}
+        except EveFitAdvisorError as e:
+            return {"ok": False, "error": str(e)}
+        except Exception as e:
+            return {"ok": False, "error": f"Unexpected error: {e}"}
+
+    def save_researched_fit(self, ship_name, fit):
+        save_custom_fit(ship_name, fit)
+        return {"ok": True}
+
+    def verify_fit(self, ship_name, fit, api_key):
+        """Fact-checks a fit already on screen (built-in or researched)
+        instead of proposing a new one -- another paid Claude API call."""
+        try:
+            result = verify_fit(ship_name, fit, api_key)
+            return {"ok": True, "result": result}
+        except EveFitAdvisorError as e:
+            return {"ok": False, "error": str(e)}
+        except Exception as e:
+            return {"ok": False, "error": f"Unexpected error: {e}"}
 
 
 def main():

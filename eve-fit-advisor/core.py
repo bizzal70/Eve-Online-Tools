@@ -14,6 +14,7 @@ a single ISK.
 """
 
 import base64
+import datetime
 import hashlib
 import http.server
 import json
@@ -57,6 +58,12 @@ def _config_dir() -> str:
 
 
 ACCOUNTS_PATH = os.path.join(_config_dir(), "accounts.json")
+
+# Fits researched via the Claude AI feature live here, separate from the
+# bundled fits_database.json -- that file is read-only once frozen into the
+# exe (it's extracted to a temp dir at runtime), and keeping user-added fits
+# out of it means they survive rebuilding/updating the app.
+CUSTOM_FITS_PATH = os.path.join(_config_dir(), "custom_fits.json")
 
 
 class EveFitAdvisorError(Exception):
@@ -299,7 +306,32 @@ def load_fits() -> dict:
     if not os.path.exists(FITS_PATH):
         raise EveFitAdvisorError(f"Can't find fits_database.json next to core.py (expected at {FITS_PATH}).")
     with open(FITS_PATH) as f:
-        return json.load(f)["ships"]
+        fits_db = json.load(f)["ships"]
+
+    if os.path.exists(CUSTOM_FITS_PATH):
+        with open(CUSTOM_FITS_PATH) as f:
+            custom_ships = json.load(f).get("ships", {})
+        for ship_name, entry in custom_ships.items():
+            if ship_name in fits_db:
+                fits_db[ship_name] = {**fits_db[ship_name], "fits": fits_db[ship_name]["fits"] + entry["fits"]}
+            else:
+                fits_db[ship_name] = entry
+
+    return fits_db
+
+
+def save_custom_fit(ship_name: str, fit: dict) -> None:
+    """Appends a researched fit to the user's local overlay file so it shows
+    up as an extra option for that ship from now on."""
+    if os.path.exists(CUSTOM_FITS_PATH):
+        with open(CUSTOM_FITS_PATH) as f:
+            data = json.load(f)
+    else:
+        data = {"ships": {}}
+    data["ships"].setdefault(ship_name, {"fits": []})
+    data["ships"][ship_name]["fits"].append(fit)
+    with open(CUSTOM_FITS_PATH, "w") as f:
+        json.dump(data, f, indent=2)
 
 
 def evaluate_fit(fit: dict, skill_levels: dict, skill_ids: dict):
@@ -421,3 +453,185 @@ def _build_report(token: str, char_id: int, char_name: str) -> dict:
         "best": scored[0],
         "alternates": scored[1:],
     }
+
+
+_SOURCE_SCHEMA = {
+    "type": "object",
+    "properties": {"title": {"type": "string"}, "url": {"type": "string"}},
+    "required": ["title", "url"],
+    "additionalProperties": False,
+}
+
+_FIT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Short fit name only, e.g. 'Magic Merlin (T2 Blaster Brawler)' -- under 60 characters, no long descriptive clauses.",
+        },
+        "summary": {
+            "type": "string",
+            "description": "One sentence describing the fit's role/style, e.g. 'General-purpose PvP brawler for low-SP pilots.'",
+        },
+        "high": {"type": "array", "items": {"type": "string"}},
+        "mid": {"type": "array", "items": {"type": "string"}},
+        "low": {"type": "array", "items": {"type": "string"}},
+        "rig": {"type": "array", "items": {"type": "string"}},
+        "drones": {"type": "array", "items": {"type": "string"}},
+        "charges": {"type": "array", "items": {"type": "string"}},
+        "skills": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}, "level": {"type": "integer"}},
+                "required": ["name", "level"],
+                "additionalProperties": False,
+            },
+        },
+        "notes": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "3-6 short, single-idea bullet points: why this fit, ammo choice, flying tips, common variations. Each under ~30 words -- not one long paragraph.",
+        },
+        "sources": {"type": "array", "items": _SOURCE_SCHEMA},
+    },
+    "required": ["name", "summary", "high", "mid", "low", "rig", "drones", "charges", "skills", "notes", "sources"],
+    "additionalProperties": False,
+}
+
+
+def research_fit(ship_name: str, style_hint: str, api_key: str) -> dict:
+    """Uses the Claude API, with live web search turned on, to research a
+    current community-recommended fit for a ship instead of relying on
+    whatever's already baked into fits_database.json. Returns a dict shaped
+    like one entry in that file's "fits" list, plus "notes" and "sources".
+
+    This calls a paid third-party API using the caller's own key -- it is
+    not free, and is a separate cost from anything ESI-related. Raises
+    EveFitAdvisorError on any failure (bad key, rate limit, network, or a
+    response that doesn't parse as the expected shape).
+    """
+    role = style_hint.strip() if style_hint and style_hint.strip() else "general-purpose"
+    prompt = (
+        f"Research a current, community-recommended EVE Online ship fitting for a {ship_name}, "
+        f"for a {role} role. Use web search to check what EVE Online players currently recommend "
+        f"(EVE University wiki, r/Eve, EVE Workbench, Zkillboard-linked fits, or similar community "
+        f"sources) -- don't just rely on what you already know, the game's balance changes over "
+        f"time and a fit that was good a year ago may not be anymore. Use the EXACT official EVE "
+        f"Online names for every module, drone, charge, and skill, spelled and cased as they appear "
+        f"in-game, since these get looked up against EVE's live item database afterwards. Return "
+        f"one solid fit plus the real sources you actually used. Keep the name short (just the fit's "
+        f"name, not a full description); put the one-line role description in 'summary'; and write "
+        f"'notes' as several short, single-idea bullet points rather than one long paragraph."
+    )
+
+    result = _call_claude_json(prompt, _FIT_SCHEMA, api_key)
+    result["skills"] = {s["name"]: s["level"] for s in result["skills"]}  # list-of-pairs -> dict
+    result["researched_at"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    return result
+
+
+def _call_claude_json(prompt: str, schema: dict, api_key: str) -> dict:
+    """Runs one Claude API request with live web search enabled and a
+    structured-output schema, returning the parsed JSON result. Shared by
+    research_fit() and verify_fit() -- both are "ask Claude to look things
+    up on the web and hand back a specific JSON shape" calls that differ
+    only in prompt and schema."""
+    try:
+        import anthropic
+    except ImportError as e:
+        raise EveFitAdvisorError("The 'anthropic' package isn't installed. Run: pip install anthropic") from e
+
+    client = anthropic.Anthropic(api_key=api_key)
+    try:
+        with client.messages.stream(
+            model="claude-opus-5",
+            max_tokens=8000,
+            thinking={"type": "adaptive"},
+            output_config={"effort": "high", "format": {"type": "json_schema", "schema": schema}},
+            tools=[{"type": "web_search_20260209", "name": "web_search", "max_uses": 5}],
+            messages=[{"role": "user", "content": prompt}],
+        ) as stream:
+            response = stream.get_final_message()
+    except anthropic.AuthenticationError as e:
+        raise EveFitAdvisorError("That Anthropic API key was rejected. Double-check it and try again.") from e
+    except anthropic.RateLimitError as e:
+        raise EveFitAdvisorError("Rate limited by the Anthropic API. Wait a moment and try again.") from e
+    except anthropic.APIStatusError as e:
+        raise EveFitAdvisorError(f"Claude API error ({e.status_code}): {e.message}") from e
+    except anthropic.APIConnectionError as e:
+        raise EveFitAdvisorError(f"Couldn't reach the Anthropic API: {e}") from e
+
+    if response.stop_reason == "refusal":
+        raise EveFitAdvisorError("Claude declined this request.")
+
+    text = next((b.text for b in response.content if b.type == "text"), None)
+    if not text:
+        raise EveFitAdvisorError("Claude didn't return a usable result. Try again.")
+
+    return json.loads(text)
+
+
+_VERIFY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "still_recommended": {
+            "type": "boolean",
+            "description": "False if this fit looks outdated/superseded by balance changes, or isn't a real recognizable fit.",
+        },
+        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+        "concerns": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Specific problems found: fake/renamed items, outdated approach, better alternatives now common, etc. Empty if none.",
+        },
+        "sources": {"type": "array", "items": _SOURCE_SCHEMA},
+    },
+    "required": ["still_recommended", "confidence", "concerns", "sources"],
+    "additionalProperties": False,
+}
+
+
+def verify_fit(ship_name: str, fit: dict, api_key: str) -> dict:
+    """Fact-checks a fit that's already been proposed (whether it's one of
+    the app's built-in fits or a previously AI-researched one) -- does NOT
+    invent a new fit. Checks two things via live web search: are the named
+    modules/drones/charges/skills real, current EVE items, and is this fit
+    (or something close to it) still commonly recommended today rather than
+    superseded by a balance patch or meta shift.
+
+    Costs the caller's own Anthropic API usage, same as research_fit().
+    Raises EveFitAdvisorError on any failure.
+    """
+    fit_summary = {k: fit.get(k) for k in ("name", "high", "mid", "low", "rig", "drones", "charges", "skills")}
+    prompt = (
+        f"Here is an EVE Online ship fitting for a {ship_name}:\n\n"
+        f"{json.dumps(fit_summary, indent=2)}\n\n"
+        f"Use web search to check two things against current sources (EVE University wiki, r/Eve, "
+        f"EVE Workbench, official patch notes, or similar): (1) is every module, drone, charge, and "
+        f"skill name here a real, currently-existing EVE Online name -- not renamed, removed, or "
+        f"invented; (2) is this fit, or something very close to it, still commonly recommended today, "
+        f"or has the game's balance changed enough that it's outdated or clearly superseded by a "
+        f"different approach. Be skeptical -- flag anything you're not confident about rather than "
+        f"assuming it's fine."
+    )
+    return _call_claude_json(prompt, _VERIFY_SCHEMA, api_key)
+
+
+def validate_fit_names(fit: dict) -> list:
+    """Cross-checks every module/drone/charge/skill name in a researched fit
+    against ESI's live item catalog. Returns the names that didn't resolve --
+    an empty list means everything checked out; a non-empty one is a signal
+    the AI likely got a name slightly wrong (extra/missing word, wrong
+    Roman numeral, etc.) and it's worth a manual look before trusting it."""
+    all_names = set(
+        fit.get("high", [])
+        + fit.get("mid", [])
+        + fit.get("low", [])
+        + fit.get("rig", [])
+        + fit.get("drones", [])
+        + fit.get("charges", [])
+        + list(fit.get("skills", {}).keys())
+    )
+    resolved = resolve_skill_ids(all_names)  # /universe/ids/ resolves any item name, not just skills
+    return sorted(all_names - resolved.keys())

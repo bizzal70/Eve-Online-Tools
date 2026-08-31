@@ -118,6 +118,37 @@ are gitignored — the exe itself isn't checked into the repo (it's a
 multi-megabyte local build artifact); rebuild it from source whenever you
 want a fresh copy.
 
+## Researching fits with Claude AI (optional)
+
+Everything above works with zero extra setup. Optionally, the GUI can also
+call the [Claude API](https://console.anthropic.com) — with live web search
+turned on — to do two things `fits_database.json` alone can't:
+
+- **Research a fit** — looks up what EVE players currently recommend (EVE
+  University wiki, r/Eve, EVE Workbench, etc.) instead of relying on
+  whatever's already baked into this app, and proposes a fit in the same
+  format, with sources. You can save it, and it'll show up as an extra
+  option for that ship from then on.
+- **Double-check this fit** — fact-checks a fit that's already on screen
+  (built-in *or* researched): are the module/skill names even real, and is
+  this still commonly recommended today or has the game's balance moved on.
+  Worth running on the built-in fits especially, since those were written
+  from general knowledge rather than pulled from any specific source.
+
+Both need your own Anthropic API key, set once via the **⚙ Settings** button
+(top-right of the window) — paste it there and it's remembered locally
+(`%APPDATA%\EveFitAdvisor\`) the same way your EVE Client ID is. Get one at
+console.anthropic.com → **API Keys** → **Create Key** (separate from a
+Claude.ai/Claude Pro login; pay-as-you-go billing). **Each research or
+double-check click is a real, billed API call** — typically a few cents,
+since it involves live web search — not something that happens automatically
+in the background.
+
+Fits you save this way go to a separate local file,
+`%APPDATA%\EveFitAdvisor\custom_fits.json`, layered on top of the bundled
+`fits_database.json` at runtime — so they survive rebuilding the exe and
+aren't something you need to hand-edit.
+
 ## 3. Ships currently covered
 
 `Venture`, `Retriever`, `Rifter`, `Merlin`, `Vexor`, `Catalyst`, `Rupture`,
