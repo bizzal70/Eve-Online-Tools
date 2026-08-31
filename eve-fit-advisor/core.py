@@ -19,6 +19,7 @@ import http.server
 import json
 import os
 import secrets
+import sys
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -32,7 +33,17 @@ TOKEN_URL = "https://login.eveonline.com/v2/oauth/token"
 ESI_BASE = "https://esi.evetech.net/latest"
 USER_AGENT = "eve-fit-advisor/1.0 (personal use script)"
 
-FITS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fits_database.json")
+
+def base_dir() -> str:
+    """Where bundled files (fits_database.json, gui/) live -- the PyInstaller
+    temp extraction dir when frozen into an exe, or this file's folder when
+    running from source."""
+    if getattr(sys, "frozen", False):
+        return sys._MEIPASS
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+FITS_PATH = os.path.join(base_dir(), "fits_database.json")
 
 
 class EveFitAdvisorError(Exception):

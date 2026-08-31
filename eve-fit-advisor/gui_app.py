@@ -15,9 +15,9 @@ import os
 
 import webview
 
-from core import EveFitAdvisorError, get_recommendation
+from core import EveFitAdvisorError, base_dir, get_recommendation
 
-GUI_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gui")
+GUI_DIR = os.path.join(base_dir(), "gui")
 
 
 class Api:

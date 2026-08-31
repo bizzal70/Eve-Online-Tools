@@ -34,11 +34,19 @@ server to catch the login redirect.
 
 ## 2. Run it
 
-There are two ways to run this: a GUI window, or the original command line.
-Both use the same login/scoring logic (`core.py`) and the same
-`fits_database.json`.
+There are three ways to run this: a standalone `.exe`, a GUI window run from
+Python, or the original command line. All three use the same login/scoring
+logic (`core.py`) and the same `fits_database.json`.
 
-### GUI (recommended)
+### Standalone .exe (no Python needed)
+
+If someone built `EVE Fit Advisor.exe` for you (see "Building the .exe"
+below), just double-click it. Nothing to install. `fits_database.json` and
+the GUI's HTML/CSS/JS are bundled inside it, so it's fully self-contained —
+editing fits means rebuilding the exe (or just using the GUI/CLI from source
+instead, which reads the file live).
+
+### GUI (recommended, from source)
 
 Needs one extra package, [pywebview](https://pywebview.flowrl.com/), which
 renders the window using Windows' built-in WebView2 runtime (already present
@@ -76,6 +84,26 @@ still worth training for it.
 
 Run it again any time you switch ships or finish training something —
 it's meant to be rerun, not a one-off report.
+
+## Building the .exe
+
+Requires [PyInstaller](https://pyinstaller.org/):
+
+```bash
+pip install -r requirements.txt
+pip install pyinstaller
+```
+
+Then, from the `eve-fit-advisor` folder:
+
+```bash
+pyinstaller --onefile --windowed --name "EVE Fit Advisor" --add-data "fits_database.json;." --add-data "gui;gui" gui_app.py
+```
+
+The finished exe lands at `dist/EVE Fit Advisor.exe`. `build/` and `dist/`
+are gitignored — the exe itself isn't checked into the repo (it's a
+multi-megabyte local build artifact); rebuild it from source whenever you
+want a fresh copy.
 
 ## 3. Ships currently covered
 
