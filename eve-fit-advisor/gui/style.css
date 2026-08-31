@@ -1,0 +1,194 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #131a22;
+  --border: #263140;
+  --text: #dbe4ec;
+  --muted: #7f92a3;
+  --accent: #4fc3f7;
+  --gold: #e8b923;
+  --danger: #ff6b6b;
+  --ok: #4caf50;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", -apple-system, sans-serif;
+}
+
+header h1 {
+  margin: 0 0 4px 0;
+  color: var(--gold);
+  font-size: 1.6em;
+  letter-spacing: 0.02em;
+}
+
+header .tagline {
+  margin: 0 0 20px 0;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.panel.hidden { display: none; }
+
+.panel.error {
+  border-color: var(--danger);
+  background: #1f1416;
+  color: var(--danger);
+}
+
+label {
+  display: block;
+  font-size: 0.85em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+input[type="text"] {
+  flex: 1;
+  background: #0e141b;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 10px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+button {
+  background: var(--accent);
+  color: #05131c;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) { background: #7cd3ff; }
+
+button:disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: default;
+}
+
+.hint {
+  margin: 10px 0 0 0;
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+#status-text {
+  margin: 0;
+  color: var(--accent);
+}
+
+#result-header {
+  margin-bottom: 12px;
+}
+
+#result-header .char-line {
+  font-size: 1.05em;
+}
+
+#result-header .char-name { color: var(--gold); font-weight: 600; }
+#result-header .ship-name { color: var(--accent); font-weight: 600; }
+
+.fit-name {
+  font-size: 1.15em;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 4px 0 2px 0;
+}
+
+.fit-score {
+  color: var(--muted);
+  font-size: 0.9em;
+  margin-bottom: 12px;
+}
+
+.slot-row {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0;
+  font-size: 0.9em;
+}
+
+.slot-label {
+  color: var(--muted);
+  width: 46px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  padding-top: 1px;
+}
+
+.slot-items { color: var(--text); }
+
+.missing-block, .ready-block {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ready-block { color: var(--ok); }
+
+.missing-item {
+  font-size: 0.9em;
+  margin: 3px 0;
+}
+
+.missing-item .need { color: var(--danger); }
+
+.alt-block {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.alt-block h3 {
+  font-size: 0.85em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.alt-row {
+  font-size: 0.9em;
+  margin: 3px 0;
+  color: var(--text);
+}
+
+.known-ships {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9em;
+}

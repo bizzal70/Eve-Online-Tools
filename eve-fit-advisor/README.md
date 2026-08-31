@@ -34,7 +34,29 @@ server to catch the login redirect.
 
 ## 2. Run it
 
-You need Python 3 (no extra packages — it only uses the standard library).
+There are two ways to run this: a GUI window, or the original command line.
+Both use the same login/scoring logic (`core.py`) and the same
+`fits_database.json`.
+
+### GUI (recommended)
+
+Needs one extra package, [pywebview](https://pywebview.flowrl.com/), which
+renders the window using Windows' built-in WebView2 runtime (already present
+on any up-to-date Windows 10/11):
+
+```bash
+pip install -r requirements.txt
+python gui_app.py
+```
+
+A window opens. Paste your Client ID, click **Log In With EVE**, approve the
+two read-only scopes in the browser tab that pops up, and the recommended
+fit appears back in the window. Your Client ID is remembered locally for
+next time (in the window's own local storage) so you only paste it once.
+
+### Command line
+
+No extra packages needed — just the standard library.
 
 ```bash
 python3 eve_fit_advisor.py --client-id=YOUR_CLIENT_ID
@@ -47,10 +69,10 @@ export EVE_CLIENT_ID=YOUR_CLIENT_ID
 python3 eve_fit_advisor.py
 ```
 
-A browser tab opens asking you to log in to EVE and approve the two
-read-only scopes. Approve it, and the script picks up the login
-automatically — nothing to copy/paste. It then prints your recommended
-fit and any skills still worth training for it.
+Either way, a browser tab opens asking you to log in to EVE and approve the
+two read-only scopes. Approve it, and it picks up the login automatically —
+nothing to copy/paste. It then reports your recommended fit and any skills
+still worth training for it.
 
 Run it again any time you switch ships or finish training something —
 it's meant to be rerun, not a one-off report.

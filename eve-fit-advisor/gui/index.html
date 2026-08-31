@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EVE Fit Advisor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>EVE Fit Advisor</h1>
+    <p class="tagline">Read-only. Logs in via EVE SSO, checks your active ship and skills, tells you the best fit on file.</p>
+  </header>
+
+  <main>
+    <section id="setup-panel" class="panel">
+      <label for="client-id">ESI App Client ID</label>
+      <div class="row">
+        <input type="text" id="client-id" placeholder="Paste your Client ID from developers.eveonline.com">
+        <button id="login-btn">Log In With EVE</button>
+      </div>
+      <p class="hint">
+        Don't have one yet? See the README for the one-time setup steps
+        (register a free app at developers.eveonline.com, ~2 minutes).
+      </p>
+    </section>
+
+    <section id="status-panel" class="panel hidden">
+      <p id="status-text"></p>
+    </section>
+
+    <section id="error-panel" class="panel error hidden">
+      <p id="error-text"></p>
+    </section>
+
+    <section id="result-panel" class="panel hidden">
+      <div id="result-header"></div>
+      <div id="result-body"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
