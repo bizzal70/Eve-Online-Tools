@@ -1,0 +1,229 @@
+{
+  "_note": "Community-standard baseline fits, curated for common early/mid-game roles. Module names and skill levels are representative, not pulled live from CCP data -- always let the in-game fitting screen have the final word on exact per-module skill gates. Extend this file with more ships/fits any time.",
+  "ships": {
+    "Venture": {
+      "role": "Beginner mining frigate",
+      "fits": [
+        {
+          "name": "Starter Ore Miner",
+          "high": ["Miner II", "Miner II"],
+          "mid": ["1MN Afterburner I", "Medium Shield Extender I"],
+          "low": [],
+          "rig": ["Small Gravity Capacitor Upgrade I", "Small Gravity Capacitor Upgrade I"],
+          "drones": [],
+          "charges": [],
+          "skills": {
+            "Mining": 3,
+            "Mining Frigate": 1,
+            "Mining Upgrades": 2,
+            "Astronautics Rigging": 1
+          }
+        }
+      ]
+    },
+    "Retriever": {
+      "role": "Mining barge",
+      "fits": [
+        {
+          "name": "Fleet Strip Miner Barge",
+          "high": ["Strip Miner II", "Strip Miner II"],
+          "mid": ["Survey Scanner I"],
+          "low": ["Mining Laser Upgrade II", "Mining Laser Upgrade II"],
+          "rig": ["Medium Ice Harvester Upgrade I"],
+          "drones": ["Hobgoblin I", "Hobgoblin I"],
+          "charges": [],
+          "skills": {
+            "Mining": 5,
+            "Mining Barge": 3,
+            "Astrogeology": 4,
+            "Mining Upgrades": 4
+          }
+        }
+      ]
+    },
+    "Rifter": {
+      "role": "Solo PVP / tackle frigate",
+      "fits": [
+        {
+          "name": "Autocannon Kiter",
+          "high": ["150mm Light AutoCannon II", "150mm Light AutoCannon II", "150mm Light AutoCannon II"],
+          "mid": ["1MN Afterburner II", "Warp Scrambler II", "X5 Enduring Stasis Webifier"],
+          "low": ["Damage Control II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
+          "rig": ["Small Projectile Burst Aerator I", "Small Projectile Collision Accelerator I"],
+          "drones": [],
+          "charges": ["Republic Fleet EMP S", "Republic Fleet Fusion S"],
+          "skills": {
+            "Gunnery": 4,
+            "Small Projectile Turret": 4,
+            "Minmatar Frigate": 4,
+            "Afterburner": 3,
+            "Propulsion Jamming": 3,
+            "Weapon Upgrades": 3,
+            "Hull Upgrades": 3,
+            "Mechanics": 3
+          }
+        }
+      ]
+    },
+    "Merlin": {
+      "role": "Beginner brawler frigate",
+      "fits": [
+        {
+          "name": "Blaster Brawler",
+          "high": ["Light Neutron Blaster II", "Light Neutron Blaster II", "Light Neutron Blaster II"],
+          "mid": ["1MN Afterburner II", "Warp Scrambler II"],
+          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Nanofiber Internal Structure II"],
+          "rig": ["Small Anti-EM Screen Reinforcer I"],
+          "drones": [],
+          "charges": ["Antimatter Charge S", "Void S"],
+          "skills": {
+            "Gunnery": 4,
+            "Small Hybrid Turret": 4,
+            "Caldari Frigate": 4,
+            "Afterburner": 3,
+            "Propulsion Jamming": 2,
+            "Weapon Upgrades": 3,
+            "Hull Upgrades": 3
+          }
+        }
+      ]
+    },
+    "Vexor": {
+      "role": "Drone cruiser, missions/PVE",
+      "fits": [
+        {
+          "name": "Drone Mission Boat",
+          "high": ["Light Ion Blaster II", "Light Ion Blaster II"],
+          "mid": ["10MN Afterburner II", "Cap Recharger II"],
+          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Magnetic Field Stabilizer II", "Drone Damage Amplifier II"],
+          "rig": ["Medium Auxiliary Nano Pump I", "Medium Anti-Thermal Screen Reinforcer I"],
+          "drones": ["Hammerhead II", "Hammerhead II", "Hammerhead II", "Hammerhead II", "Hammerhead II"],
+          "charges": ["Antimatter Charge S"],
+          "skills": {
+            "Gunnery": 3,
+            "Small Hybrid Turret": 3,
+            "Gallente Cruiser": 4,
+            "Drones": 4,
+            "Medium Drone Operation": 3,
+            "Drone Interfacing": 3,
+            "Afterburner": 3,
+            "Shield Upgrades": 2
+          }
+        }
+      ]
+    },
+    "Catalyst": {
+      "role": "Blaster destroyer, ratting/ganking",
+      "fits": [
+        {
+          "name": "Six-Gun Blaster Boat",
+          "high": ["Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II"],
+          "mid": ["1MN Afterburner II"],
+          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Magnetic Field Stabilizer II"],
+          "rig": ["Small Semiconductor Memory Cell I"],
+          "drones": [],
+          "charges": ["Void S", "Antimatter Charge S"],
+          "skills": {
+            "Gunnery": 4,
+            "Small Hybrid Turret": 4,
+            "Gallente Destroyer": 3,
+            "Weapon Upgrades": 4,
+            "Hull Upgrades": 3
+          }
+        }
+      ]
+    },
+    "Rupture": {
+      "role": "Projectile cruiser, PVP/PVE",
+      "fits": [
+        {
+          "name": "Autocannon Brawler",
+          "high": ["220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II"],
+          "mid": ["10MN Afterburner II", "Warp Scrambler II"],
+          "low": ["Damage Control II", "Gyrostabilizer II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
+          "rig": ["Medium Projectile Burst Aerator I"],
+          "drones": [],
+          "charges": ["Republic Fleet EMP M", "Republic Fleet Fusion M"],
+          "skills": {
+            "Gunnery": 4,
+            "Medium Projectile Turret": 4,
+            "Minmatar Cruiser": 4,
+            "Afterburner": 3,
+            "Propulsion Jamming": 3,
+            "Weapon Upgrades": 4,
+            "Hull Upgrades": 3
+          }
+        }
+      ]
+    },
+    "Drake": {
+      "role": "Shield-tanked missile battlecruiser, missions",
+      "fits": [
+        {
+          "name": "Heavy Missile Mission Tank",
+          "high": ["Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II"],
+          "mid": ["Large Shield Extender II", "Large Shield Extender II", "Invulnerability Field II", "10MN Afterburner II"],
+          "low": ["Ballistic Control System II", "Ballistic Control System II", "Damage Control II"],
+          "rig": ["Medium Core Defense Field Extender I", "Medium Core Defense Field Extender I"],
+          "drones": ["Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II"],
+          "charges": ["Scourge Heavy Missile"],
+          "skills": {
+            "Missile Launcher Operation": 5,
+            "Heavy Missiles": 4,
+            "Caldari Battlecruiser": 4,
+            "Shield Management": 4,
+            "Shield Upgrades": 3,
+            "Ballistic Control Systems": 3,
+            "Drones": 3
+          }
+        }
+      ]
+    },
+    "Hurricane": {
+      "role": "Projectile battlecruiser, PVP",
+      "fits": [
+        {
+          "name": "425mm Autocannon Brawler",
+          "high": ["425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II"],
+          "mid": ["10MN Afterburner II", "Warp Scrambler II", "Large Shield Extender II"],
+          "low": ["Damage Control II", "Gyrostabilizer II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
+          "rig": ["Medium Projectile Burst Aerator I"],
+          "drones": [],
+          "charges": ["Republic Fleet EMP L", "Republic Fleet Fusion L"],
+          "skills": {
+            "Gunnery": 5,
+            "Large Projectile Turret": 4,
+            "Minmatar Battlecruiser": 4,
+            "Afterburner": 4,
+            "Propulsion Jamming": 3,
+            "Weapon Upgrades": 4,
+            "Shield Management": 3
+          }
+        }
+      ]
+    },
+    "Raven": {
+      "role": "Missile battleship, PVE/missions",
+      "fits": [
+        {
+          "name": "Cruise Missile Mission Boat",
+          "high": ["Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II"],
+          "mid": ["Large Shield Extender II", "Large Shield Extender II", "Invulnerability Field II", "10MN Afterburner II"],
+          "low": ["Ballistic Control System II", "Ballistic Control System II", "Ballistic Control System II", "Damage Control II"],
+          "rig": ["Large Core Defense Field Extender I", "Large Core Defense Field Extender I"],
+          "drones": ["Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II"],
+          "charges": ["Caldari Navy Scourge Cruise Missile"],
+          "skills": {
+            "Missile Launcher Operation": 5,
+            "Cruise Missiles": 4,
+            "Caldari Battleship": 4,
+            "Shield Management": 4,
+            "Shield Upgrades": 4,
+            "Ballistic Control Systems": 4,
+            "Drones": 3
+          }
+        }
+      ]
+    }
+  }
+}
