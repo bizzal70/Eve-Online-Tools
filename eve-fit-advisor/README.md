@@ -58,9 +58,22 @@ python gui_app.py
 ```
 
 A window opens. Paste your Client ID, click **Log In With EVE**, approve the
-two read-only scopes in the browser tab that pops up, and the recommended
-fit appears back in the window. Your Client ID is remembered locally for
-next time (in the window's own local storage) so you only paste it once.
+read-only scopes in the browser tab that pops up, and the recommended fit
+appears back in the window.
+
+After that first login, the app remembers your character and just continues
+as them automatically the next time you open it — no browser, no clicking,
+nothing to re-enter. Use **"Log in with a different character"** to add
+another character or switch, and the **×** next to a remembered character to
+forget it (and its saved login) entirely.
+
+This works by storing a refresh token locally at
+`%APPDATA%\EveFitAdvisor\accounts.json` (both the GUI and the standalone exe
+use the same file, so logging in once covers both). Anyone with a copy of
+that file could read your skills/ship/etc. without your password — it's not
+as sensitive as a password, but treat it like a "stay logged in" browser
+cookie: don't share it, and remove it (or use the × in the app) if you ever
+want to fully revoke local access.
 
 ### Command line
 

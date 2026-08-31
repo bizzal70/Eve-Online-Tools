@@ -8,6 +8,12 @@ const els = {
   resultPanel: document.getElementById("result-panel"),
   resultHeader: document.getElementById("result-header"),
   resultBody: document.getElementById("result-body"),
+  accountsPanel: document.getElementById("accounts-panel"),
+  accountsList: document.getElementById("accounts-list"),
+  setupPanel: document.getElementById("setup-panel"),
+  switchAccountLink: document.getElementById("switch-account-link"),
+  cancelSwitchLink: document.getElementById("cancel-switch-link"),
+  cancelSwitchWrap: document.getElementById("cancel-switch-wrap"),
 };
 
 const STORAGE_KEY = "eveFitAdvisor.clientId";
@@ -116,6 +122,57 @@ function renderResult(data) {
   show(els.resultPanel);
 }
 
+function showSetupPanel(canCancel) {
+  hide(els.accountsPanel);
+  show(els.setupPanel);
+  if (canCancel) show(els.cancelSwitchWrap); else hide(els.cancelSwitchWrap);
+}
+
+function showAccountsPanel() {
+  hide(els.setupPanel);
+  show(els.accountsPanel);
+}
+
+async function refreshAccountsList() {
+  const { last_used, characters } = await window.pywebview.api.list_accounts();
+  els.accountsList.innerHTML = "";
+  for (const acct of characters) {
+    const row = el("div", "account-row");
+    const useBtn = el("button", "use-btn", acct.char_name);
+    useBtn.type = "button";
+    useBtn.addEventListener("click", () => continueAs(acct.char_id));
+    const forgetBtn = el("button", "forget-btn", "×");
+    forgetBtn.type = "button";
+    forgetBtn.title = "Forget this character";
+    forgetBtn.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      await window.pywebview.api.forget_account(acct.char_id);
+      await refreshAccountsList();
+    });
+    row.appendChild(useBtn);
+    row.appendChild(forgetBtn);
+    els.accountsList.appendChild(row);
+  }
+  return { last_used, characters };
+}
+
+async function continueAs(charId) {
+  setStatus("Continuing...");
+  try {
+    const result = await window.pywebview.api.quick_login(charId);
+    if (result.ok) {
+      renderResult(result.data);
+    } else if (result.expired) {
+      setError(`${result.error} Log in again below.`);
+      showSetupPanel(true);
+    } else {
+      setError(result.error);
+    }
+  } catch (err) {
+    setError(`Unexpected error: ${err}`);
+  }
+}
+
 async function handleLogin() {
   const clientId = els.clientId.value.trim();
   if (!clientId) {
@@ -125,12 +182,15 @@ async function handleLogin() {
   localStorage.setItem(STORAGE_KEY, clientId);
 
   els.loginBtn.disabled = true;
-  setStatus("Opening your browser to log in via EVE SSO... approve the two read-only scopes there, then come back here.");
+  setStatus("Opening your browser to log in via EVE SSO... approve the read-only scopes there, then come back here.");
 
   try {
     const result = await window.pywebview.api.start_login(clientId);
     if (result.ok) {
       renderResult(result.data);
+      const { characters } = await refreshAccountsList();
+      if (characters.length) show(els.accountsPanel);
+      hide(els.setupPanel);
     } else {
       setError(result.error);
     }
@@ -141,10 +201,28 @@ async function handleLogin() {
   }
 }
 
-function init() {
+async function init() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) els.clientId.value = saved;
   els.loginBtn.addEventListener("click", handleLogin);
+  els.switchAccountLink.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    showSetupPanel(true);
+  });
+  els.cancelSwitchLink.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    showAccountsPanel();
+  });
+
+  const { last_used, characters } = await refreshAccountsList();
+  if (characters.length) {
+    showAccountsPanel();
+    if (last_used && characters.some((c) => String(c.char_id) === String(last_used))) {
+      continueAs(last_used);
+    }
+  } else {
+    showSetupPanel(false);
+  }
 }
 
 if (window.pywebview) {

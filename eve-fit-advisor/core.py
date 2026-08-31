@@ -46,8 +46,27 @@ def base_dir() -> str:
 FITS_PATH = os.path.join(base_dir(), "fits_database.json")
 
 
+def _config_dir() -> str:
+    """Per-user local app data folder -- separate from the install/source
+    folder so it survives rebuilding the exe and isn't something that'd ever
+    land in the repo."""
+    base = os.environ.get("APPDATA") or os.path.expanduser("~")
+    path = os.path.join(base, "EveFitAdvisor")
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+ACCOUNTS_PATH = os.path.join(_config_dir(), "accounts.json")
+
+
 class EveFitAdvisorError(Exception):
     """Any recoverable failure a front end should show to the user as-is."""
+
+
+class SavedLoginExpired(EveFitAdvisorError):
+    """A remembered character's refresh token no longer works -- the front
+    end should fall back to a fresh interactive login, not just show an
+    error and stop."""
 
 
 _auth_result = {}
@@ -81,8 +100,9 @@ def _b64url(data: bytes) -> str:
     return base64.urlsafe_b64encode(data).rstrip(b"=").decode()
 
 
-def do_pkce_login(client_id: str) -> str:
-    """Runs the full PKCE authorization-code flow and returns an access token.
+def do_pkce_login(client_id: str) -> dict:
+    """Runs the full PKCE authorization-code flow and returns the token
+    response dict (has "access_token" and "refresh_token").
 
     Blocks the calling thread until the browser callback arrives (or times
     out after 3 minutes) -- run this off the UI thread in a GUI.
@@ -143,7 +163,37 @@ def do_pkce_login(client_id: str) -> str:
     except urllib.error.HTTPError as e:
         raise EveFitAdvisorError(f"Token exchange failed ({e.code}): {e.read().decode(errors='replace')}") from e
 
-    return token["access_token"]
+    return token
+
+
+def refresh_access_token(client_id: str, refresh_token: str) -> dict:
+    """Exchanges a stored refresh token for a fresh access token, no browser
+    involved. Raises SavedLoginExpired if the refresh token's been revoked
+    (character deauthorized the app, password changed, etc.) -- callers
+    should fall back to do_pkce_login in that case."""
+    body = urllib.parse.urlencode(
+        {
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token,
+            "client_id": client_id,
+        }
+    ).encode()
+    req = urllib.request.Request(
+        TOKEN_URL,
+        data=body,
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Host": "login.eveonline.com",
+            "User-Agent": USER_AGENT,
+        },
+    )
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        if e.code in (400, 401):
+            raise SavedLoginExpired("Saved login has expired or was revoked. Please log in again.") from e
+        raise EveFitAdvisorError(f"Token refresh failed ({e.code}): {e.read().decode(errors='replace')}") from e
 
 
 def decode_jwt_character(access_token: str):
@@ -205,6 +255,46 @@ def resolve_skill_ids(skill_names) -> dict:
     return result
 
 
+def _load_accounts() -> dict:
+    if not os.path.exists(ACCOUNTS_PATH):
+        return {"last_used": None, "characters": {}}
+    with open(ACCOUNTS_PATH) as f:
+        return json.load(f)
+
+
+def _save_accounts(data: dict) -> None:
+    with open(ACCOUNTS_PATH, "w") as f:
+        json.dump(data, f, indent=2)
+
+
+def _remember_account(char_id: int, char_name: str, client_id: str, refresh_token: str) -> None:
+    data = _load_accounts()
+    data["characters"][str(char_id)] = {
+        "char_name": char_name,
+        "client_id": client_id,
+        "refresh_token": refresh_token,
+    }
+    data["last_used"] = str(char_id)
+    _save_accounts(data)
+
+
+def list_saved_accounts() -> dict:
+    """Returns {"last_used": "<char_id>" or None, "characters": [{"char_id": int, "char_name": str}, ...]}."""
+    data = _load_accounts()
+    characters = [
+        {"char_id": int(cid), "char_name": entry["char_name"]} for cid, entry in data["characters"].items()
+    ]
+    return {"last_used": data.get("last_used"), "characters": characters}
+
+
+def forget_account(char_id) -> None:
+    data = _load_accounts()
+    data["characters"].pop(str(char_id), None)
+    if data.get("last_used") == str(char_id):
+        data["last_used"] = None
+    _save_accounts(data)
+
+
 def load_fits() -> dict:
     if not os.path.exists(FITS_PATH):
         raise EveFitAdvisorError(f"Can't find fits_database.json next to core.py (expected at {FITS_PATH}).")
@@ -257,7 +347,9 @@ def format_report(char_name, ship_name, fit, score, missing) -> str:
 
 
 def get_recommendation(client_id: str) -> dict:
-    """Runs the full login -> ESI -> scoring flow and returns a structured result.
+    """Full interactive flow: opens the browser for a fresh EVE SSO login,
+    then builds the report. Remembers the character afterwards so
+    get_recommendation_saved() can skip the browser next time.
 
     Shape:
       {
@@ -269,9 +361,28 @@ def get_recommendation(client_id: str) -> dict:
       }
     Raises EveFitAdvisorError on any recoverable failure (auth, network, missing file).
     """
-    token = do_pkce_login(client_id)
-    char_id, char_name = decode_jwt_character(token)
+    tokens = do_pkce_login(client_id)
+    char_id, char_name = decode_jwt_character(tokens["access_token"])
+    _remember_account(char_id, char_name, client_id, tokens["refresh_token"])
+    return _build_report(tokens["access_token"], char_id, char_name)
 
+
+def get_recommendation_saved(char_id) -> dict:
+    """Same as get_recommendation(), but silently refreshes a previously
+    remembered character's token instead of opening the browser. Raises
+    SavedLoginExpired if that character's saved login no longer works --
+    callers should fall back to get_recommendation() (fresh login) then."""
+    data = _load_accounts()
+    entry = data["characters"].get(str(char_id))
+    if not entry:
+        raise EveFitAdvisorError("No saved login for that character.")
+
+    tokens = refresh_access_token(entry["client_id"], entry["refresh_token"])
+    _remember_account(char_id, entry["char_name"], entry["client_id"], tokens["refresh_token"])
+    return _build_report(tokens["access_token"], int(char_id), entry["char_name"])
+
+
+def _build_report(token: str, char_id: int, char_name: str) -> dict:
     ship = esi_get(f"/characters/{char_id}/ship/", token=token)
     ship_type_name = resolve_type_name(ship["ship_type_id"])
 

@@ -12,7 +12,15 @@
   </header>
 
   <main>
-    <section id="setup-panel" class="panel">
+    <section id="accounts-panel" class="panel hidden">
+      <label>Remembered characters</label>
+      <div id="accounts-list"></div>
+      <p class="hint">
+        <a href="#" id="switch-account-link">Log in with a different character</a>
+      </p>
+    </section>
+
+    <section id="setup-panel" class="panel hidden">
       <label for="client-id">ESI App Client ID</label>
       <div class="row">
         <input type="text" id="client-id" placeholder="Paste your Client ID from developers.eveonline.com">
@@ -22,6 +30,7 @@
         Don't have one yet? See the README for the one-time setup steps
         (register a free app at developers.eveonline.com, ~2 minutes).
       </p>
+      <p class="hint hidden" id="cancel-switch-wrap"><a href="#" id="cancel-switch-link">Cancel</a></p>
     </section>
 
     <section id="status-panel" class="panel hidden">
