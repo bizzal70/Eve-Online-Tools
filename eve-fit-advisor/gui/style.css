@@ -230,6 +230,32 @@ button:disabled {
   font-size: 0.9em;
 }
 
+.slot-problem-block {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #1f1416;
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+}
+
+.slot-problem-block h3 {
+  font-size: 0.85em;
+  color: var(--danger);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.slot-problem-block div {
+  font-size: 0.9em;
+  margin: 3px 0;
+}
+
+.stale-note {
+  color: var(--gold);
+  font-size: 0.85em;
+  margin-top: 8px;
+}
+
 .verify-wrap {
   margin-top: 14px;
   padding-top: 12px;

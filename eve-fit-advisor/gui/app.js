@@ -206,6 +206,15 @@ function attachVerifyButton(container, shipName, fit) {
   container.appendChild(wrap);
 }
 
+function renderSlotProblems(problems) {
+  const block = el("div", "slot-problem-block");
+  block.appendChild(el("h3", null, "This fit doesn't actually fit the hull:"));
+  for (const p of problems) {
+    block.appendChild(el("div", null, p));
+  }
+  return block;
+}
+
 function showResearchPanelFor(shipName) {
   currentShip = shipName;
   els.researchLabel.textContent = `Research a fit for ${shipName} with Claude AI`;
@@ -235,6 +244,18 @@ function renderResult(data) {
   }
 
   els.resultBody.appendChild(renderFit(data.best.fit, data.best.score, data.best.missing));
+  if (data.best.slot_problems && data.best.slot_problems.length) {
+    els.resultBody.appendChild(renderSlotProblems(data.best.slot_problems));
+  }
+  if (data.best.stale) {
+    els.resultBody.appendChild(
+      el(
+        "div",
+        "stale-note",
+        "⚠ This fit hasn't been checked recently (or ever) -- use \"Double-check this fit\" below to verify it's still current."
+      )
+    );
+  }
   attachVerifyButton(els.resultBody, data.ship_type_name, data.best.fit);
 
   if (data.alternates && data.alternates.length) {
@@ -349,9 +370,13 @@ function categorizeWarning(name, fit) {
   return Object.prototype.hasOwnProperty.call(fit.skills || {}, name) ? "Skill" : "Module/Item";
 }
 
-function renderResearchResult(fit, warnings) {
+function renderResearchResult(fit, warnings, slotProblems) {
   els.researchResult.innerHTML = "";
   els.researchResult.appendChild(renderFit(fit));
+
+  if (slotProblems && slotProblems.length) {
+    els.researchResult.appendChild(renderSlotProblems(slotProblems));
+  }
 
   if (fit.notes && fit.notes.length) {
     const block = el("div", "notes-block");
@@ -421,7 +446,7 @@ async function handleResearch() {
     const result = await window.pywebview.api.research_fit(currentShip, els.researchStyle.value.trim(), apiKey);
     if (result.ok) {
       els.researchStatus.textContent = "";
-      renderResearchResult(result.fit, result.warnings);
+      renderResearchResult(result.fit, result.warnings, result.slot_problems);
     } else {
       els.researchStatus.textContent = result.error;
     }

@@ -5,19 +5,87 @@
       "role": "Beginner mining frigate",
       "fits": [
         {
-          "name": "Starter Ore Miner",
-          "high": ["Miner II", "Miner II"],
-          "mid": ["1MN Afterburner I", "Medium Shield Extender I"],
-          "low": [],
-          "rig": ["Small Gravity Capacitor Upgrade I", "Small Gravity Capacitor Upgrade I"],
-          "drones": [],
-          "charges": [],
+          "name": "Venture (Ore + Gas All-Rounder)",
+          "summary": "Buffer-tanked general-purpose Venture for highsec/lowsec ore mining that can also scan down and huff gas sites.",
+          "high": [
+            "Miner II",
+            "Miner II",
+            "Core Probe Launcher I"
+          ],
+          "mid": [
+            "Medium F-S9 Regolith Compact Shield Extender",
+            "1MN Y-S8 Compact Afterburner",
+            "ML-3 Scoped Survey Scanner"
+          ],
+          "low": [
+            "Damage Control II"
+          ],
+          "rig": [
+            "Small Core Defense Field Extender I",
+            "Small EM Shield Reinforcer I",
+            "Small Thermal Shield Reinforcer I"
+          ],
+          "drones": [
+            "Hobgoblin I",
+            "Hobgoblin I"
+          ],
+          "charges": [
+            "Core Scanner Probe I"
+          ],
           "skills": {
-            "Mining": 3,
-            "Mining Frigate": 1,
-            "Mining Upgrades": 2,
-            "Astronautics Rigging": 1
-          }
+            "Mining Frigate": 4,
+            "Mining": 4,
+            "Astrogeology": 3,
+            "CPU Management": 4,
+            "Power Grid Management": 3,
+            "Shield Upgrades": 3,
+            "Hull Upgrades": 5,
+            "Afterburner": 3,
+            "Drones": 2,
+            "Light Drone Operation": 2,
+            "Astrometrics": 2,
+            "Gas Cloud Harvesting": 1
+          },
+          "notes": [
+            "Venture has only 2 turret hardpoints, so 2 mining lasers is the hard cap; the third high is free utility.",
+            "Miner II is roughly 40% better yield than Miner I; if CPU is tight, use Particle Bore Compact Mining Laser instead.",
+            "Shield extender plus EM/Thermal rigs patch the Venture's 0% EM and 20% thermal shield holes against gankers.",
+            "Swap both mining lasers for Gas Cloud Harvester I and use the probe launcher to scan gas sites in wormholes or nullsec.",
+            "Drop the probe launcher and survey scanner for a second shield module if you only mine belts in highsec.",
+            "Use Damage Control I if you lack Hull Upgrades V; the ship is cheap enough that it barely matters.",
+            "Built-in +2 warp core strength means a single scram or point cannot hold you, so pre-align and warp at the first sign of trouble."
+          ],
+          "sources": [
+            {
+              "title": "Venture - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Venture"
+            },
+            {
+              "title": "Mining yield - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Mining_yield"
+            },
+            {
+              "title": "Mining Primer for Complete Beginners - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Mining_Primer_for_Complete_Beginners"
+            },
+            {
+              "title": "Venture | EVE Ref (hull stats: slots, drone bay, resists)",
+              "url": "https://everef.net/types/32880"
+            },
+            {
+              "title": "The Complete Beginner's Guide to Mining in EVE Online (2025 Edition)",
+              "url": "https://k224p24mgt.wordpress.com/2025/05/11/the-complete-beginners-guide-to-mining-in-eve-online-2025-edition/"
+            },
+            {
+              "title": "Venture :: The Alpha's Guide to the Galaxy",
+              "url": "https://www.thealphasguide.com/upgrading-ships/amarr/venture/"
+            },
+            {
+              "title": "EVE Workbench - Venture community fittings",
+              "url": "https://eveworkbench.com/fitting/venture/c0ca5103-1826-44c2-8439-08d91df59b41"
+            }
+          ],
+          "researched_at": "2026-09-01"
         }
       ]
     },
@@ -25,19 +93,78 @@
       "role": "Mining barge",
       "fits": [
         {
-          "name": "Fleet Strip Miner Barge",
-          "high": ["Strip Miner II", "Strip Miner II"],
-          "mid": ["Survey Scanner I"],
-          "low": ["Mining Laser Upgrade II", "Mining Laser Upgrade II"],
-          "rig": ["Medium Ice Harvester Upgrade I"],
-          "drones": ["Hobgoblin I", "Hobgoblin I"],
-          "charges": [],
+          "name": "Buffer Retriever (Shield Anti-Gank Miner)",
+          "summary": "Solo high-sec/low-risk ore and ice mining barge with a shield buffer tank sized to deter cheap suicide ganks.",
+          "high": [
+            "Modulated Strip Miner II",
+            "Modulated Strip Miner II"
+          ],
+          "mid": [
+            "Medium Shield Extender II",
+            "Medium Shield Extender II"
+          ],
+          "low": [
+            "Damage Control II",
+            "Mining Laser Upgrade II"
+          ],
+          "rig": [
+            "Medium Core Defense Field Extender II",
+            "Medium Core Defense Field Extender II",
+            "Medium Core Defense Field Extender II"
+          ],
+          "drones": [
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hornet EC-300",
+            "Hornet EC-300",
+            "Hornet EC-300"
+          ],
+          "charges": [
+            "Simple Asteroid Mining Crystal Type A II",
+            "Coherent Asteroid Mining Crystal Type A II",
+            "Variegated Asteroid Mining Crystal Type A II",
+            "Complex Asteroid Mining Crystal Type A II"
+          ],
           "skills": {
+            "Mining Barge": 4,
+            "Astrogeology": 5,
             "Mining": 5,
-            "Mining Barge": 3,
-            "Astrogeology": 4,
-            "Mining Upgrades": 4
-          }
+            "Mining Upgrades": 4,
+            "CPU Management": 5,
+            "Power Grid Management": 4,
+            "Shield Upgrades": 4,
+            "Tactical Shield Manipulation": 4,
+            "Hull Upgrades": 5,
+            "Drones": 4,
+            "Light Drone Operation": 4
+          },
+          "notes": [
+            "Retriever's draw is its huge ore hold, so buffer tank beats active tank \u2014 you want to survive long enough for CONCORD.",
+            "If CPU is tight before skills finish, drop to Strip Miner I and Mining Laser Upgrade I, then upgrade later.",
+            "Load Simple Type A crystals for Veldspar/Scordite; swap crystal families per ore type or use Ice Harvester II for ice.",
+            "Two Hobgoblin II clear belt rats; three Hornet EC-300 can break a ganker's lock and buy you a warp-out.",
+            "Always mine pre-aligned to a station or celestial and watch local \u2014 tank only buys seconds, not immunity.",
+            "In known gank systems (Hek, ice belts, Uedama route) fly a Procurer instead; it tanks far better for similar yield."
+          ],
+          "sources": [
+            {
+              "title": "Retriever - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Retriever"
+            },
+            {
+              "title": "Retriever - EVE Ref item database",
+              "url": "https://everef.net/types/42534"
+            },
+            {
+              "title": "Shield Tank Retriever - EVE Workbench",
+              "url": "https://eveworkbench.com/fitting/retriever/4fe4a5b7-5bc9-4831-1fdd-08d7777210fa"
+            },
+            {
+              "title": "\"Eve Online\" Anti-Gank Barge Fits - LevelSkip",
+              "url": "https://levelskip.com/mmorpgs/Eve-Online-Anti-gank-barge-fits"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     },
@@ -45,23 +172,87 @@
       "role": "Solo PVP / tackle frigate",
       "fits": [
         {
-          "name": "Autocannon Kiter",
-          "high": ["150mm Light AutoCannon II", "150mm Light AutoCannon II", "150mm Light AutoCannon II"],
-          "mid": ["1MN Afterburner II", "Warp Scrambler II", "X5 Enduring Stasis Webifier"],
-          "low": ["Damage Control II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
-          "rig": ["Small Projectile Burst Aerator I", "Small Projectile Collision Accelerator I"],
+          "name": "Rifter (Armor Scram Brawler)",
+          "summary": "General-purpose solo/small-gang PvP Rifter that scram-webs targets and brawls at 0-9km with T2 autocannons behind a plate-and-ancillary armor buffer.",
+          "high": [
+            "200mm AutoCannon II",
+            "200mm AutoCannon II",
+            "200mm AutoCannon II"
+          ],
+          "mid": [
+            "1MN Y-S8 Compact Afterburner",
+            "Warp Scrambler II",
+            "Fleeting Compact Stasis Webifier"
+          ],
+          "low": [
+            "Small Ancillary Armor Repairer",
+            "IFFA Compact Damage Control",
+            "Gyrostabilizer II",
+            "400mm Rolled Tungsten Compact Plates"
+          ],
+          "rig": [
+            "Small Ancillary Current Router II",
+            "Small Projectile Ambit Extension II",
+            "Small Explosive Armor Reinforcer I"
+          ],
           "drones": [],
-          "charges": ["Republic Fleet EMP S", "Republic Fleet Fusion S"],
+          "charges": [
+            "Republic Fleet EMP S",
+            "Republic Fleet Fusion S",
+            "Republic Fleet Phased Plasma S",
+            "Barrage S",
+            "Hail S",
+            "Nanite Repair Paste"
+          ],
           "skills": {
-            "Gunnery": 4,
-            "Small Projectile Turret": 4,
             "Minmatar Frigate": 4,
-            "Afterburner": 3,
+            "Small Projectile Turret": 4,
+            "Gunnery": 4,
+            "Motion Prediction": 4,
+            "Rapid Firing": 4,
+            "Surgical Strike": 4,
+            "Trajectory Analysis": 3,
+            "Weapon Upgrades": 4,
+            "Hull Upgrades": 4,
+            "Repair Systems": 3,
+            "Mechanics": 4,
+            "Afterburner": 4,
+            "Navigation": 4,
             "Propulsion Jamming": 3,
-            "Weapon Upgrades": 3,
-            "Hull Upgrades": 3,
-            "Mechanics": 3
-          }
+            "Evasive Maneuvering": 3
+          },
+          "notes": [
+            "Scram plus web plus afterburner is the core: kill enemy speed, then out-track and out-damage them up close.",
+            "Ammo: Republic Fleet EMP S or Fusion S inside ~4km, Barrage S out to the falloff bonus at ~8-9km, Hail S only against slow, webbed targets.",
+            "The Small Ancillary Armor Repairer runs unfueled but is far stronger with Nanite Repair Paste loaded; carry 30+ and reload only when disengaged.",
+            "Fitting is tight - the Small Ancillary Current Router II is what makes the 400mm plate and T2 guns fit; drop the plate for a Multispectrum Coating II if you prefer speed.",
+            "Alpha or low-SP pilots: swap to 200mm Light Prototype Automatic Cannons, Counterbalanced Compact Gyrostabilizer, Initiated Compact Warp Scrambler and a 200mm Rolled Tungsten Compact Plates.",
+            "Rifter has no drone bay, so overheating guns and the repairer is your only burst - heat early against other frigates.",
+            "Artillery variants (280mm Howitzer Artillery II with a microwarpdrive) exist for kiting, but the autocannon brawler is the more forgiving all-round choice."
+          ],
+          "sources": [
+            {
+              "title": "Rifter - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Rifter"
+            },
+            {
+              "title": "Fit Kitchen: Rifter - Ashy in Space",
+              "url": "https://ashy.vargur.dev/fit-kitchen-rifter/"
+            },
+            {
+              "title": "[NVY] Rifter doctrine fit - Minmatar Fleet Alliance",
+              "url": "https://my.minmatar.org/ships/fitting/normal/103"
+            },
+            {
+              "title": "Short skill plan ships - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/User:Laura_Karpinski/Short_skill_plan_ships"
+            },
+            {
+              "title": "The Rifter Guide: Solo PvP (Wensley)",
+              "url": "https://eve-files.com/media/corp/wensley/rifter_guide_-_solo_pvp.pdf"
+            }
+          ],
+          "researched_at": "2026-09-01"
         }
       ]
     },
@@ -69,22 +260,80 @@
       "role": "Beginner brawler frigate",
       "fits": [
         {
-          "name": "Blaster Brawler",
-          "high": ["Light Neutron Blaster II", "Light Neutron Blaster II", "Light Neutron Blaster II"],
-          "mid": ["1MN Afterburner II", "Warp Scrambler II"],
-          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Nanofiber Internal Structure II"],
-          "rig": ["Small Anti-EM Screen Reinforcer I"],
+          "name": "Merlin Blaster Brawler (ASB)",
+          "summary": "Cheap, tough Tech I close-range brawler for solo and small-gang PvP that also handles low-level PvE.",
+          "high": [
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II"
+          ],
+          "mid": [
+            "1MN Afterburner II",
+            "Warp Scrambler II",
+            "Fleeting Compact Stasis Webifier",
+            "Small Ancillary Shield Booster"
+          ],
+          "low": [
+            "Damage Control II",
+            "Magnetic Field Stabilizer II",
+            "Magnetic Field Stabilizer II"
+          ],
+          "rig": [
+            "Small Anti-EM Screen Reinforcer II",
+            "Small Anti-Thermal Screen Reinforcer II",
+            "Small Core Defense Field Extender II"
+          ],
           "drones": [],
-          "charges": ["Antimatter Charge S", "Void S"],
+          "charges": [
+            "Caldari Navy Antimatter Charge S",
+            "Void S",
+            "Null S",
+            "Navy Cap Booster 150"
+          ],
           "skills": {
-            "Gunnery": 4,
-            "Small Hybrid Turret": 4,
             "Caldari Frigate": 4,
-            "Afterburner": 3,
-            "Propulsion Jamming": 2,
-            "Weapon Upgrades": 3,
-            "Hull Upgrades": 3
-          }
+            "Small Hybrid Turret": 5,
+            "Small Blaster Specialization": 3,
+            "Gunnery": 4,
+            "Motion Prediction": 4,
+            "Rapid Firing": 4,
+            "Surgical Strike": 4,
+            "Controlled Bursts": 3,
+            "Weapon Upgrades": 4,
+            "Shield Operation": 4,
+            "Shield Management": 4,
+            "Tactical Shield Manipulation": 4,
+            "Hull Upgrades": 4,
+            "Afterburner": 4,
+            "Propulsion Jamming": 3
+          },
+          "notes": [
+            "The Merlin's 4% shield resist bonus per Caldari Frigate level plus resist rigs makes the ancillary shield booster repair far above its paper numbers.",
+            "Load Caldari Navy Antimatter Charge S as your default; it beats Void S on tracking and range while keeping most of the damage.",
+            "Carry Null S for targets you cannot immediately close on, and swap to Void S only when scrammed and webbed inside 2 km.",
+            "Merlins are slow, so scram plus web first and fight at point-blank; disengaging is very hard once committed.",
+            "Popular variant: drop the shield booster for a second Fleeting Compact Stasis Webifier and add a Small Shield Extender II for a dual-web buffer brawler.",
+            "Budget version: swap to meta modules such as a 1MN Y-S8 Compact Afterburner, Warp Scrambler I and Anode Light Ion Particle Cannon I; Merlin has no drone bay, so bring no drones."
+          ],
+          "sources": [
+            {
+              "title": "Merlin - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Merlin"
+            },
+            {
+              "title": "Magic Merlins doctrine - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/User:Professor_Academiac/Magic_Merlins"
+            },
+            {
+              "title": "Merlin Solo PVP - EVE Online Forums (PvP Ships & Modules)",
+              "url": "https://forums.eveonline.com/t/merlin-solo-pvp/253939"
+            },
+            {
+              "title": "Merlin, Solo Pvp - EVE Workbench",
+              "url": "https://eveworkbench.com/fitting/merlin/1cec3093-9305-4787-b3c1-08d6c4709780"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     },
@@ -92,23 +341,95 @@
       "role": "Drone cruiser, missions/PVE",
       "fits": [
         {
-          "name": "Drone Mission Boat",
-          "high": ["Light Ion Blaster II", "Light Ion Blaster II"],
-          "mid": ["10MN Afterburner II", "Cap Recharger II"],
-          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Magnetic Field Stabilizer II", "Drone Damage Amplifier II"],
-          "rig": ["Medium Auxiliary Nano Pump I", "Medium Anti-Thermal Screen Reinforcer I"],
-          "drones": ["Hammerhead II", "Hammerhead II", "Hammerhead II", "Hammerhead II", "Hammerhead II"],
-          "charges": ["Antimatter Charge S"],
+          "name": "Vexor Armor Brawler (Drone/Blaster)",
+          "summary": "Armor-buffer drone cruiser for low-sec/null roams and small gang that also handles ratting and combat sites.",
+          "high": [
+            "Heavy Electron Blaster II",
+            "Heavy Electron Blaster II",
+            "Heavy Electron Blaster II",
+            "Medium Infectious Scoped Energy Neutralizer"
+          ],
+          "mid": [
+            "50MN Quad LiF Restrained Microwarpdrive",
+            "Warp Scrambler II",
+            "X5 Enduring Stasis Webifier",
+            "Medium Capacitor Booster II"
+          ],
+          "low": [
+            "800mm Steel Plates II",
+            "Damage Control II",
+            "Medium Ancillary Armor Repairer",
+            "Drone Damage Amplifier II",
+            "Drone Damage Amplifier II"
+          ],
+          "rig": [
+            "Medium Trimark Armor Pump I",
+            "Medium Trimark Armor Pump I",
+            "Medium Ancillary Current Router I"
+          ],
+          "drones": [
+            "Hammerhead II x5",
+            "Hobgoblin II x5",
+            "Warrior II x5"
+          ],
+          "charges": [
+            "Void M",
+            "Null M",
+            "Antimatter Charge M",
+            "Navy Cap Booster 400",
+            "Nanite Repair Paste"
+          ],
           "skills": {
-            "Gunnery": 3,
-            "Small Hybrid Turret": 3,
+            "Drones": 5,
+            "Drone Interfacing": 4,
+            "Medium Drone Operation": 4,
+            "Light Drone Operation": 4,
+            "Drone Avionics": 3,
+            "Drone Sharpshooting": 3,
             "Gallente Cruiser": 4,
-            "Drones": 4,
-            "Medium Drone Operation": 3,
-            "Drone Interfacing": 3,
-            "Afterburner": 3,
-            "Shield Upgrades": 2
-          }
+            "Medium Hybrid Turret": 4,
+            "Hull Upgrades": 4,
+            "Mechanics": 4,
+            "Repair Systems": 4,
+            "Weapon Upgrades": 4,
+            "Armor Layering": 3
+          },
+          "notes": [
+            "Drones are the main gun: the hull gives 10% drone damage and HP per Gallente Cruiser level.",
+            "Two Drone Damage Amplifier II plus a 5-drone medium flight is the standard damage core.",
+            "Blasters and the neut are close-range support; the neut shuts down tackle frigates.",
+            "Load Void M inside ~4km, Null M for 10-15km, Antimatter Charge M as a cheap all-rounder.",
+            "Ancillary rep gives burst tank on paste, while the 800mm plate and trimarks carry the buffer.",
+            "Fitting is tight: swap to 800mm Rolled Tungsten Compact Plates or meta blasters if grid-short.",
+            "Common variants: shield buffer for more low-slot damage mods, or 220mm Vulcan AutoCannon II to free capacitor."
+          ],
+          "sources": [
+            {
+              "title": "Vexor - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Vexor"
+            },
+            {
+              "title": "Vexor - EVE Ref (hull stats: 4/4/5, 3 rigs, 125 m3 bay, 75 Mbit bandwidth)",
+              "url": "https://everef.net/types/626"
+            },
+            {
+              "title": "Vexor, Armor Buffer fit by Ty Sanov | EVE Workbench",
+              "url": "https://eveworkbench.com/fitting/vexor/01d73afc-b91e-421f-b861-08d897c1a9a9"
+            },
+            {
+              "title": "VNI or Vexor PvP fits - EVE Online Forums",
+              "url": "https://forums.eveonline.com/t/vni-or-vexor-pvp-fits-stable/415741"
+            },
+            {
+              "title": "Eve Rookies Missions Vexor Fit",
+              "url": "https://everookies.com/ship-fits/eve-rookies-missions-vexor-fit/"
+            },
+            {
+              "title": "Riley Entertainment - PvE Vexor Fits in Eve Online",
+              "url": "https://www.riley-entertainment.com/gaming/eve-online/combat-sites/cruisers/gallente/ship-vexor.html"
+            }
+          ],
+          "researched_at": "2026-09-01"
         }
       ]
     },
@@ -116,20 +437,86 @@
       "role": "Blaster destroyer, ratting/ganking",
       "fits": [
         {
-          "name": "Six-Gun Blaster Boat",
-          "high": ["Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II", "Light Ion Blaster II"],
-          "mid": ["1MN Afterburner II"],
-          "low": ["Damage Control II", "Magnetic Field Stabilizer II", "Magnetic Field Stabilizer II"],
-          "rig": ["Small Semiconductor Memory Cell I"],
+          "name": "Brawl Cat (T2 Blaster Armor Brawler)",
+          "summary": "Cheap, high-DPS armor-buffer blaster Catalyst for lowsec/FW brawling, gate camps and general small-gang PvP.",
+          "high": [
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II",
+            "Light Ion Blaster II"
+          ],
+          "mid": [
+            "1MN Afterburner II",
+            "Initiated Compact Warp Scrambler"
+          ],
+          "low": [
+            "Damage Control II",
+            "Magnetic Field Stabilizer II",
+            "200mm Rolled Tungsten Compact Plates"
+          ],
+          "rig": [
+            "Small Trimark Armor Pump I",
+            "Small Trimark Armor Pump I",
+            "Small Ancillary Current Router I"
+          ],
           "drones": [],
-          "charges": ["Void S", "Antimatter Charge S"],
+          "charges": [
+            "Caldari Navy Antimatter Charge S",
+            "Void S",
+            "Null S"
+          ],
           "skills": {
-            "Gunnery": 4,
-            "Small Hybrid Turret": 4,
-            "Gallente Destroyer": 3,
+            "Gallente Destroyer": 4,
+            "Small Hybrid Turret": 5,
+            "Gunnery": 5,
+            "Motion Prediction": 4,
+            "Rapid Firing": 4,
+            "Sharpshooter": 4,
+            "Surgical Strike": 4,
+            "Controlled Bursts": 4,
             "Weapon Upgrades": 4,
-            "Hull Upgrades": 3
-          }
+            "Hull Upgrades": 4,
+            "Mechanics": 4,
+            "Afterburner": 4,
+            "Propulsion Jamming": 3,
+            "Armor Rigging": 3
+          },
+          "notes": [
+            "Catalyst has no drone bay, so all damage comes from the eight turrets \u2014 every gun counts.",
+            "Light Ion Blaster II is the sweet spot: near-Neutron damage with easier fitting and a little more range.",
+            "Ammo: Void S inside ~4 km, Caldari Navy Antimatter Charge S as the default, Null S when targets try to pull range.",
+            "Afterburner over MWD \u2014 it keeps signature small and still works under an enemy scram.",
+            "Scram plus a plate is the survival plan: get to zero, hold them there, and out-trade with raw DPS.",
+            "Common variants: swap to Light Neutron Blaster II for max gank, or 8x 150mm Railgun II with a Warp Disruptor II for a cheap kite/PvE version.",
+            "Only two mids means you can't have both web and scram; fly with fleetmates who bring tackle when possible."
+          ],
+          "sources": [
+            {
+              "title": "Catalyst - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Catalyst"
+            },
+            {
+              "title": "EVE Online FW Destroyer Guide | Navy & T1 Fits | Minmatar Fleet",
+              "url": "https://my.minmatar.org/guides/navy-destroyer-metagame/"
+            },
+            {
+              "title": "Gallente Militia: CATALYST (fit breakdowns)",
+              "url": "https://gallentemilitia.blogspot.com/p/catalyst.html"
+            },
+            {
+              "title": "1v1 Destroyer Fit - PvP Ships & Modules - EVE Online Forums",
+              "url": "https://forums.eveonline.com/t/1v1-destroyer-fit/206252"
+            },
+            {
+              "title": "EVE Workbench - Catalyst community fittings",
+              "url": "https://www.eveworkbench.com/fitting/catalyst/2b46db03-3613-40ab-fce7-08d6f9abe3ed"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     },
@@ -137,22 +524,107 @@
       "role": "Projectile cruiser, PVP/PVE",
       "fits": [
         {
-          "name": "Autocannon Brawler",
-          "high": ["220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II", "220mm Vulcan AutoCannon II"],
-          "mid": ["10MN Afterburner II", "Warp Scrambler II"],
-          "low": ["Damage Control II", "Gyrostabilizer II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
-          "rig": ["Medium Projectile Burst Aerator I"],
-          "drones": [],
-          "charges": ["Republic Fleet EMP M", "Republic Fleet Fusion M"],
+          "name": "Armor Buffer Rupture (AC Brawler)",
+          "summary": "General-purpose armour-buffer autocannon Rupture for low-sec, fleet and small-gang brawling PvP.",
+          "high": [
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "Medium Energy Neutralizer II"
+          ],
+          "mid": [
+            "50MN Y-T8 Compact Microwarpdrive",
+            "Warp Scrambler II",
+            "Stasis Webifier II",
+            "Warp Disruptor II"
+          ],
+          "low": [
+            "1600mm Crystalline Carbonide Restrained Plates",
+            "Energized Adaptive Nano Membrane II",
+            "Energized Adaptive Nano Membrane II",
+            "Damage Control II",
+            "Gyrostabilizer II"
+          ],
+          "rig": [
+            "Medium Trimark Armor Pump I",
+            "Medium Trimark Armor Pump I",
+            "Medium Ancillary Current Router I"
+          ],
+          "drones": [
+            "Warrior II",
+            "Warrior II",
+            "Warrior II",
+            "Warrior II",
+            "Warrior II",
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II"
+          ],
+          "charges": [
+            "Republic Fleet EMP M",
+            "Republic Fleet Phased Plasma M",
+            "Barrage M",
+            "Hail M"
+          ],
           "skills": {
+            "Minmatar Cruiser": 4,
             "Gunnery": 4,
             "Medium Projectile Turret": 4,
-            "Minmatar Cruiser": 4,
-            "Afterburner": 3,
-            "Propulsion Jamming": 3,
+            "Medium Autocannon Specialization": 1,
+            "Motion Prediction": 4,
+            "Rapid Firing": 4,
+            "Surgical Strike": 4,
+            "Trajectory Analysis": 3,
             "Weapon Upgrades": 4,
-            "Hull Upgrades": 3
-          }
+            "Advanced Weapon Upgrades": 3,
+            "Hull Upgrades": 4,
+            "Mechanics": 4,
+            "Energy Grid Upgrades": 3,
+            "Armor Rigging": 3,
+            "High Speed Maneuvering": 3,
+            "Propulsion Jamming": 3,
+            "Drones": 5,
+            "Light Drone Operation": 4
+          },
+          "notes": [
+            "EVE University still lists armour buffer plus autocannons as the standard, most forgiving Rupture PvP approach.",
+            "Roughly 35-40k EHP with good skills, so it survives long enough for armour logi or friends to arrive.",
+            "Scram plus web is your brawl kit; the Warp Disruptor II gives sticky secondary tackle when the FC calls a long point.",
+            "Load Republic Fleet EMP M for shield targets up close, Republic Fleet Phased Plasma M for armour, Barrage M when the fight drifts past 6-8 km.",
+            "Utility high is flexible: swap the Medium Energy Neutralizer II for a Small Energy Neutralizer II if powergrid or fitting skills are tight.",
+            "Warrior II handle tackle frigates; carry Hobgoblin II as spares or for cruiser-sized targets you can hold still.",
+            "Common variation is a shield version (Large Shield Extender II, extra Gyrostabilizer II) which is faster and hits harder but has less EHP."
+          ],
+          "sources": [
+            {
+              "title": "Rupture - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Rupture"
+            },
+            {
+              "title": "Minmatar Basic Ship and Skill Overview - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Minmatar_Basic_Ship_and_Skill_Overview"
+            },
+            {
+              "title": "Artillery Ruptures - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Artillery_Ruptures"
+            },
+            {
+              "title": "[Solo] Rupture Edition - EVE University Forum",
+              "url": "https://forum.eveuniversity.org/viewtopic.php?f=290&t=105785"
+            },
+            {
+              "title": "Rupture - Ship Setups & Tactics - Red vs. Blue",
+              "url": "https://rvbeve.com/forums/index.php/topic/4175-rupture/"
+            },
+            {
+              "title": "Fittings for Glorification - 2v2 Cruisers - Ashy in Space",
+              "url": "https://ashy.vargur.dev/fittings-for-glorification-2v2-cruisers/"
+            }
+          ],
+          "researched_at": "2026-09-01"
         }
       ]
     },
@@ -160,22 +632,102 @@
       "role": "Shield-tanked missile battlecruiser, missions",
       "fits": [
         {
-          "name": "Heavy Missile Mission Tank",
-          "high": ["Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II", "Heavy Missile Launcher II"],
-          "mid": ["Large Shield Extender II", "Large Shield Extender II", "Invulnerability Field II", "10MN Afterburner II"],
-          "low": ["Ballistic Control System II", "Ballistic Control System II", "Damage Control II"],
-          "rig": ["Medium Core Defense Field Extender I", "Medium Core Defense Field Extender I"],
-          "drones": ["Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II"],
-          "charges": ["Scourge Heavy Missile"],
+          "name": "Passive Drake (PvE Missions & Ratting)",
+          "summary": "General-purpose passive-shield heavy missile boat for Level 3 missions, combat anomalies and relaxed ratting.",
+          "high": [
+            "Heavy Missile Launcher II",
+            "Heavy Missile Launcher II",
+            "Heavy Missile Launcher II",
+            "Heavy Missile Launcher II",
+            "Heavy Missile Launcher II",
+            "Heavy Missile Launcher II",
+            "Salvager II"
+          ],
+          "mid": [
+            "Large Shield Extender II",
+            "Large Shield Extender II",
+            "Multispectrum Shield Hardener II",
+            "EM Shield Hardener II",
+            "Thermal Dissipation Field II",
+            "10MN Afterburner II"
+          ],
+          "low": [
+            "Ballistic Control System II",
+            "Ballistic Control System II",
+            "Shield Power Relay II",
+            "Shield Power Relay II"
+          ],
+          "rig": [
+            "Medium Core Defense Field Purger II",
+            "Medium Core Defense Field Purger II",
+            "Medium Core Defense Field Purger II"
+          ],
+          "drones": [
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II",
+            "Hobgoblin II"
+          ],
+          "charges": [
+            "Scourge Fury Heavy Missile",
+            "Scourge Precision Heavy Missile",
+            "Nova Fury Heavy Missile",
+            "Scourge Heavy Missile"
+          ],
           "skills": {
-            "Missile Launcher Operation": 5,
-            "Heavy Missiles": 4,
             "Caldari Battlecruiser": 4,
+            "Heavy Missiles": 5,
+            "Heavy Missile Specialization": 4,
+            "Missile Launcher Operation": 5,
+            "Rapid Launch": 4,
+            "Warhead Upgrades": 4,
+            "Missile Bombardment": 4,
+            "Guided Missile Precision": 4,
             "Shield Management": 4,
-            "Shield Upgrades": 3,
-            "Ballistic Control Systems": 3,
-            "Drones": 3
-          }
+            "Shield Operation": 4,
+            "Tactical Shield Manipulation": 4,
+            "Shield Upgrades": 4,
+            "EM Shield Compensation": 4,
+            "Weapon Upgrades": 4,
+            "Drones": 4
+          },
+          "notes": [
+            "Passive tank: purger rigs, Shield Power Relays and hardeners give constant regen with zero capacitor use.",
+            "The Drake's 5% kinetic missile bonus means Scourge Fury Heavy Missile is your default ammo.",
+            "Carry Scourge Precision Heavy Missile for frigates; let the light drones handle fast tacklers.",
+            "Swap Thermal Dissipation Field II for a faction-appropriate hardener (or Kinetic Deflection Field II vs Guristas).",
+            "If CPU is tight before Electronics skills are maxed, use Compact hardeners and Medium Core Defense Field Purger I rigs.",
+            "This is a Level 3 / anomaly ship; Level 4 missions are slow and risky in a T1 Drake, so blitz or bring a battleship.",
+            "Keep the afterburner running and stay 40-60 km off the spawn \u2014 the Drake is slow and dies to being wrapped up."
+          ],
+          "sources": [
+            {
+              "title": "Fitting missile launchers - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Fitting_missile_launchers"
+            },
+            {
+              "title": "Battlecruisers - EVE University Wiki (Drake overview)",
+              "url": "https://wiki.eveuniversity.org/Battlecruisers"
+            },
+            {
+              "title": "Drake Navy Issue - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Drake_Navy_Issue"
+            },
+            {
+              "title": "EVE Workbench - Drake fit browser (recent community fits)",
+              "url": "https://eveworkbench.com/fitting/24698"
+            },
+            {
+              "title": "Drake fitting for L4 Missions - EVE Online Forums",
+              "url": "https://forums.eveonline.com/t/drake-fitting-for-l4-missions/131488"
+            },
+            {
+              "title": "EVE Online: Fitting Guide 2025 - Drake (YouTube)",
+              "url": "https://www.youtube.com/watch?v=rpcUNxSnyak"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     },
@@ -183,22 +735,104 @@
       "role": "Projectile battlecruiser, PVP",
       "fits": [
         {
-          "name": "425mm Autocannon Brawler",
-          "high": ["425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II", "425mm AutoCannon II"],
-          "mid": ["10MN Afterburner II", "Warp Scrambler II", "Large Shield Extender II"],
-          "low": ["Damage Control II", "Gyrostabilizer II", "Gyrostabilizer II", "Nanofiber Internal Structure II"],
-          "rig": ["Medium Projectile Burst Aerator I"],
-          "drones": [],
-          "charges": ["Republic Fleet EMP L", "Republic Fleet Fusion L"],
+          "name": "Armor Cane (Autocannon Brawler)",
+          "summary": "General-purpose armor-buffered autocannon Hurricane for solo and small-gang PvP in low/null and wormhole space.",
+          "high": [
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "220mm Vulcan AutoCannon II",
+            "Medium Energy Neutralizer II"
+          ],
+          "mid": [
+            "50MN Quad LiF Restrained Microwarpdrive",
+            "Warp Scrambler II",
+            "Fleeting Compact Stasis Webifier",
+            "Medium Capacitor Booster II"
+          ],
+          "low": [
+            "Damage Control II",
+            "Gyrostabilizer II",
+            "Gyrostabilizer II",
+            "1600mm Steel Plates II",
+            "Multispectrum Energized Membrane II",
+            "Multispectrum Energized Membrane II"
+          ],
+          "rig": [
+            "Medium Trimark Armor Pump I",
+            "Medium Trimark Armor Pump I",
+            "Medium Anti-Explosive Pump I"
+          ],
+          "drones": [
+            "Warrior II x5",
+            "Hobgoblin II x3"
+          ],
+          "charges": [
+            "Republic Fleet EMP M",
+            "Hail M",
+            "Barrage M",
+            "Navy Cap Booster 400",
+            "Nanite Repair Paste"
+          ],
           "skills": {
-            "Gunnery": 5,
-            "Large Projectile Turret": 4,
             "Minmatar Battlecruiser": 4,
-            "Afterburner": 4,
+            "Gunnery": 5,
+            "Medium Projectile Turret": 5,
+            "Medium Autocannon Specialization": 2,
+            "Motion Prediction": 4,
+            "Rapid Firing": 4,
+            "Surgical Strike": 4,
+            "Weapon Upgrades": 5,
+            "Advanced Weapon Upgrades": 3,
+            "Hull Upgrades": 5,
+            "Mechanics": 5,
+            "Armor Layering": 3,
+            "Energy Grid Upgrades": 4,
+            "Capacitor Management": 4,
+            "Acceleration Control": 4,
+            "High Speed Maneuvering": 4,
             "Propulsion Jamming": 3,
-            "Weapon Upgrades": 4,
-            "Shield Management": 3
-          }
+            "Drones": 5,
+            "Light Drone Operation": 4,
+            "Energy Emission Systems": 3
+          },
+          "notes": [
+            "Armor buffer plus dual membranes gives a fat, cheap EHP pool that logi and drugs scale well with.",
+            "220mm autocannons keep powergrid comfortable alongside the 1600mm plate; swap to 425mm AutoCannon II once Advanced Weapon Upgrades is high.",
+            "Load Republic Fleet EMP M as default, Hail M when webbed and inside 3 km, Barrage M against kiters or drones.",
+            "Scram-web-neut is the win condition: get inside 7 km, kill their prop mod, then eat their cap.",
+            "Wiki-noted alternative is the shield artillery cane (720mm Howitzer Artillery II, Large Shield Extender II) for fleet alpha at range.",
+            "Utility high can be a Medium Energy Nosferatu II instead if you want cap sustain rather than shutting down active-tanked opponents."
+          ],
+          "sources": [
+            {
+              "title": "Hurricane - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Hurricane"
+            },
+            {
+              "title": "Battlecruisers - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Battlecruisers"
+            },
+            {
+              "title": "Hurricane, Hurricane PvP fit - EVE Workbench",
+              "url": "https://eveworkbench.com/fitting/hurricane/814b6360-669e-4859-3fa8-08d85a740072"
+            },
+            {
+              "title": "Fit Kitchen: Navy Battlecruisers - Ashy in Space",
+              "url": "https://ashy.vargur.dev/fit-kitchen-navy-battlecruisers/"
+            },
+            {
+              "title": "EVE Online: Hurricane - Copper Ice",
+              "url": "https://copperice.co.uk/posts/11/2023/eve-online-hurricane"
+            },
+            {
+              "title": "Hurricane PVE fit - EVE Online Forums",
+              "url": "https://forums.eveonline.com/t/hurricane-pve-fit/54800"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     },
@@ -206,22 +840,116 @@
       "role": "Missile battleship, PVE/missions",
       "fits": [
         {
-          "name": "Cruise Missile Mission Boat",
-          "high": ["Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II", "Cruise Missile Launcher II"],
-          "mid": ["Large Shield Extender II", "Large Shield Extender II", "Invulnerability Field II", "10MN Afterburner II"],
-          "low": ["Ballistic Control System II", "Ballistic Control System II", "Ballistic Control System II", "Damage Control II"],
-          "rig": ["Large Core Defense Field Extender I", "Large Core Defense Field Extender I"],
-          "drones": ["Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II", "Hobgoblin II"],
-          "charges": ["Caldari Navy Scourge Cruise Missile"],
+          "name": "Raven L4 Missioner (Cruise/MJD)",
+          "summary": "General-purpose PvE battleship for Level 4 security missions, kiting at range with cruise missiles and an active shield tank.",
+          "high": [
+            "Cruise Missile Launcher II",
+            "Cruise Missile Launcher II",
+            "Cruise Missile Launcher II",
+            "Cruise Missile Launcher II",
+            "Cruise Missile Launcher II",
+            "Cruise Missile Launcher II",
+            "Drone Link Augmentor I"
+          ],
+          "mid": [
+            "Large Micro Jump Drive",
+            "100MN Afterburner II",
+            "X-Large Clarity Ward Enduring Shield Booster",
+            "Multispectrum Shield Hardener II",
+            "EM Shield Hardener II",
+            "Target Painter II"
+          ],
+          "low": [
+            "Damage Control II",
+            "Ballistic Control System II",
+            "Ballistic Control System II",
+            "Ballistic Control System II",
+            "Missile Guidance Enhancer II"
+          ],
+          "rig": [
+            "Large Warhead Rigor Catalyst II",
+            "Large Warhead Rigor Catalyst I",
+            "Large Capacitor Control Circuit I"
+          ],
+          "drones": [
+            "Hammerhead II",
+            "Hammerhead II",
+            "Hammerhead II",
+            "Hammerhead II",
+            "Hammerhead II",
+            "Warrior II",
+            "Warrior II",
+            "Warrior II",
+            "Warrior II",
+            "Warrior II"
+          ],
+          "charges": [
+            "Scourge Fury Cruise Missile",
+            "Mjolnir Fury Cruise Missile",
+            "Inferno Fury Cruise Missile",
+            "Nova Fury Cruise Missile",
+            "Scourge Precision Cruise Missile"
+          ],
           "skills": {
-            "Missile Launcher Operation": 5,
-            "Cruise Missiles": 4,
             "Caldari Battleship": 4,
+            "Cruise Missiles": 5,
+            "Cruise Missile Specialization": 4,
+            "Missile Launcher Operation": 5,
+            "Rapid Launch": 4,
+            "Warhead Upgrades": 4,
+            "Missile Bombardment": 4,
+            "Missile Projection": 4,
+            "Guided Missile Precision": 4,
+            "Target Navigation Prediction": 4,
+            "Shield Operation": 4,
             "Shield Management": 4,
             "Shield Upgrades": 4,
-            "Ballistic Control Systems": 4,
-            "Drones": 3
-          }
+            "Tactical Shield Manipulation": 4,
+            "Hull Upgrades": 4,
+            "Energy Management": 4,
+            "Long Range Targeting": 4,
+            "Micro Jump Drive Operation": 3,
+            "Afterburner": 4,
+            "Drones": 5,
+            "Light Drone Operation": 4,
+            "Medium Drone Operation": 4,
+            "Drone Interfacing": 4
+          },
+          "notes": [
+            "Cruise missiles, not torpedoes: torps give under 10% more paper DPS for far worse range and application.",
+            "Core tactic is Micro Jump Drive 100 km off, then shoot the room while most NPC damage falls off.",
+            "Swap the EM Shield Hardener II for the hardener matching each faction's main damage type.",
+            "Fury ammo for battleships; load Scourge Precision Cruise Missile and let drones handle frigates.",
+            "The shield booster is a burst tank \u2014 pulse it manually instead of running it constantly.",
+            "Budget version: swap launchers to 'Arbalest' Cruise Launcher I and rigs to Tech I until Cruise Missiles V is done."
+          ],
+          "sources": [
+            {
+              "title": "Raven - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Raven"
+            },
+            {
+              "title": "Fitting missile launchers - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Fitting_missile_launchers"
+            },
+            {
+              "title": "Mission ships - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Mission_ships"
+            },
+            {
+              "title": "Raven Navy Issue - EVE University Wiki",
+              "url": "https://wiki.eveuniversity.org/Raven_Navy_Issue"
+            },
+            {
+              "title": "Raven good mission level 4 fit - EVE Online Forums",
+              "url": "https://forums.eveonline.com/t/raven-good-mission-level-4-fit/78506"
+            },
+            {
+              "title": "Raven - EVE Online Japan Wiki (community fits)",
+              "url": "https://eveonline-japanwiki.com/ship/battleship/raven"
+            }
+          ],
+          "researched_at": "2026-08-31"
         }
       ]
     }

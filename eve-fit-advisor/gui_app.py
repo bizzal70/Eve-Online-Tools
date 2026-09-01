@@ -25,6 +25,7 @@ from core import (
     research_fit,
     save_custom_fit,
     validate_fit_names,
+    validate_fit_slots,
     verify_fit,
 )
 
@@ -74,7 +75,8 @@ class Api:
         try:
             fit = research_fit(ship_name, style_hint, api_key)
             warnings = validate_fit_names(fit)
-            return {"ok": True, "fit": fit, "warnings": warnings}
+            slot_problems = validate_fit_slots(ship_name, fit)
+            return {"ok": True, "fit": fit, "warnings": warnings, "slot_problems": slot_problems}
         except EveFitAdvisorError as e:
             return {"ok": False, "error": str(e)}
         except Exception as e:

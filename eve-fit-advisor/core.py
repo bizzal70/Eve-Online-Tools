@@ -34,6 +34,8 @@ TOKEN_URL = "https://login.eveonline.com/v2/oauth/token"
 ESI_BASE = "https://esi.evetech.net/latest"
 USER_AGENT = "eve-fit-advisor/1.0 (personal use script)"
 
+STALE_DAYS = 90  # a fit older than this (or never dated) gets flagged for a refresh
+
 
 def base_dir() -> str:
     """Where bundled files (fits_database.json, gui/) live -- the PyInstaller
@@ -262,6 +264,44 @@ def resolve_skill_ids(skill_names) -> dict:
     return result
 
 
+# EVE's dogma attribute IDs for slot counts -- stable, standard IDs used by
+# every third-party fitting tool (pyfa etc.). Every ship hull has exactly
+# 3 rig slots no matter its class; high/mid/low vary by hull.
+_SLOT_ATTRS = {"high": 14, "mid": 13, "low": 12, "rig": 1137}
+
+
+def get_ship_slot_counts(ship_name: str) -> dict:
+    """Looks up a ship's real slot counts via ESI. Returns {} if the name
+    doesn't resolve to a known type -- callers should skip the check rather
+    than treat that as "zero slots"."""
+    ids = resolve_skill_ids([ship_name])
+    type_id = ids.get(ship_name)
+    if not type_id:
+        return {}
+    data = esi_get(f"/universe/types/{type_id}/")
+    attrs = {a["attribute_id"]: a["value"] for a in data.get("dogma_attributes", [])}
+    return {slot: int(attrs[attr_id]) for slot, attr_id in _SLOT_ATTRS.items() if attr_id in attrs}
+
+
+def _slot_problems_from_counts(ship_name: str, fit: dict, counts: dict) -> list:
+    problems = []
+    for slot, max_count in counts.items():
+        used = len(fit.get(slot, []))
+        if used > max_count:
+            problems.append(f"{slot} slots: fit lists {used}, but {ship_name} only has {max_count}")
+    return problems
+
+
+def validate_fit_slots(ship_name: str, fit: dict) -> list:
+    """Cross-checks how many modules a fit puts in each slot type against
+    the ship's real slot counts from ESI -- catches fits that are simply
+    impossible to fly as listed (e.g. more rigs than any ship can have),
+    which name-validation alone can't catch since every individual item
+    might be perfectly real. Returns a list of human-readable problems;
+    empty if the fit fits, or if the ship's slot data couldn't be found."""
+    return _slot_problems_from_counts(ship_name, fit, get_ship_slot_counts(ship_name))
+
+
 def _load_accounts() -> dict:
     if not os.path.exists(ACCOUNTS_PATH):
         return {"last_used": None, "characters": {}}
@@ -414,6 +454,20 @@ def get_recommendation_saved(char_id) -> dict:
     return _build_report(tokens["access_token"], int(char_id), entry["char_name"])
 
 
+def _is_stale(fit: dict) -> bool:
+    """A fit with no "researched_at" (the original hand-authored entries)
+    or one older than STALE_DAYS is flagged so the UI can nudge toward a
+    refresh instead of silently trusting data that might be out of date."""
+    researched_at = fit.get("researched_at")
+    if not researched_at:
+        return True
+    try:
+        dt = datetime.datetime.strptime(researched_at, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
+    except ValueError:
+        return True
+    return (datetime.datetime.now(datetime.timezone.utc) - dt).days > STALE_DAYS
+
+
 def _build_report(token: str, char_id: int, char_name: str) -> dict:
     ship = esi_get(f"/characters/{char_id}/ship/", token=token)
     ship_type_name = resolve_type_name(ship["ship_type_id"])
@@ -434,10 +488,17 @@ def _build_report(token: str, char_id: int, char_name: str) -> dict:
 
     all_skill_names = sorted({name for fit in ship_entry["fits"] for name in fit["skills"]})
     skill_ids = resolve_skill_ids(all_skill_names)
+    slot_counts = get_ship_slot_counts(ship_type_name)
 
     scored = sorted(
         (
-            {"fit": fit, "score": score, "missing": missing}
+            {
+                "fit": fit,
+                "score": score,
+                "missing": missing,
+                "stale": _is_stale(fit),
+                "slot_problems": _slot_problems_from_counts(ship_type_name, fit, slot_counts),
+            }
             for fit, (score, missing) in (
                 (fit, evaluate_fit(fit, skill_levels, skill_ids)) for fit in ship_entry["fits"]
             )
