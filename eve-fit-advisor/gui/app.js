@@ -215,6 +215,34 @@ function renderSlotProblems(problems) {
   return block;
 }
 
+function renderFeasibility(feasibility) {
+  if (!feasibility || feasibility.cpu_total === undefined) return null;
+  const block = el("div", "feasibility-block");
+  block.appendChild(el("h3", null, "Fitting estimate (conservative)"));
+  block.appendChild(
+    el(
+      "div",
+      feasibility.cpu_ok ? "feas-ok" : "feas-warn",
+      `CPU: ${feasibility.cpu_used} / ${feasibility.cpu_total}  ${feasibility.cpu_ok ? "✓" : "⚠ over budget"}`
+    )
+  );
+  block.appendChild(
+    el(
+      "div",
+      feasibility.pg_ok ? "feas-ok" : "feas-warn",
+      `Powergrid: ${feasibility.pg_used} / ${feasibility.pg_total}  ${feasibility.pg_ok ? "✓" : "⚠ over budget"}`
+    )
+  );
+  block.appendChild(
+    el(
+      "p",
+      "hint",
+      "Estimate only — doesn't count skills like Weapon Upgrades that reduce module costs, so this can only under-estimate what actually fits, never over-promise."
+    )
+  );
+  return block;
+}
+
 function showResearchPanelFor(shipName) {
   currentShip = shipName;
   els.researchLabel.textContent = `Research a fit for ${shipName} with Claude AI`;
@@ -247,6 +275,8 @@ function renderResult(data) {
   if (data.best.slot_problems && data.best.slot_problems.length) {
     els.resultBody.appendChild(renderSlotProblems(data.best.slot_problems));
   }
+  const feasBlock = renderFeasibility(data.best.feasibility);
+  if (feasBlock) els.resultBody.appendChild(feasBlock);
   if (data.best.stale) {
     els.resultBody.appendChild(
       el(

@@ -264,10 +264,23 @@ def resolve_skill_ids(skill_names) -> dict:
     return result
 
 
-# EVE's dogma attribute IDs for slot counts -- stable, standard IDs used by
-# every third-party fitting tool (pyfa etc.). Every ship hull has exactly
-# 3 rig slots no matter its class; high/mid/low vary by hull.
+# EVE's dogma attribute IDs -- stable, standard IDs used by every
+# third-party fitting tool (pyfa etc.). Every ship hull has exactly 3 rig
+# slots no matter its class; high/mid/low and CPU/PG output vary by hull.
 _SLOT_ATTRS = {"high": 14, "mid": 13, "low": 12, "rig": 1137}
+_CPU_OUTPUT_ATTR = 48
+_PG_OUTPUT_ATTR = 11
+_CPU_USAGE_ATTR = 50
+_PG_USAGE_ATTR = 30
+
+_type_attrs_cache = {}  # type_id -> {attribute_id: value}, process-lifetime cache
+
+
+def _get_type_attrs(type_id: int) -> dict:
+    if type_id not in _type_attrs_cache:
+        data = esi_get(f"/universe/types/{type_id}/")
+        _type_attrs_cache[type_id] = {a["attribute_id"]: a["value"] for a in data.get("dogma_attributes", [])}
+    return _type_attrs_cache[type_id]
 
 
 def get_ship_slot_counts(ship_name: str) -> dict:
@@ -278,9 +291,70 @@ def get_ship_slot_counts(ship_name: str) -> dict:
     type_id = ids.get(ship_name)
     if not type_id:
         return {}
-    data = esi_get(f"/universe/types/{type_id}/")
-    attrs = {a["attribute_id"]: a["value"] for a in data.get("dogma_attributes", [])}
+    attrs = _get_type_attrs(type_id)
     return {slot: int(attrs[attr_id]) for slot, attr_id in _SLOT_ATTRS.items() if attr_id in attrs}
+
+
+def estimate_fitting_feasibility(ship_name: str, fit: dict, skill_levels: dict = None) -> dict:
+    """A DELIBERATELY CONSERVATIVE CPU/powergrid estimate -- not a Pyfa
+    replacement. Only accounts for the two universal fitting skills (CPU
+    Management, Power Grid Management, both +5% ship output per level);
+    it ignores category-specific reduction skills (Weapon Upgrades, Energy
+    Grid Upgrades, etc.) entirely. That means this can only UNDER-estimate
+    your real fitting capacity: it may flag something as "tight" that
+    would actually fit fine once those skills are counted, but it will
+    never claim something fits when it actually doesn't.
+
+    skill_levels: the character's {skill_id: level} dict, as already
+    fetched in _build_report -- pass None to assume 0 in both management
+    skills (an even more conservative worst case, used when there's no
+    logged-in character in play, e.g. from research_fit's CLI helpers).
+
+    Only high/mid/low slot modules consume CPU/PG (rigs use a separate
+    "calibration" resource; drones and charges use neither), so only
+    those three slots are summed.
+
+    Returns {} if the ship or any listed module doesn't resolve via ESI --
+    callers should treat that as "couldn't estimate", not "doesn't fit".
+    """
+    ship_ids = resolve_skill_ids([ship_name])
+    ship_type_id = ship_ids.get(ship_name)
+    if not ship_type_id:
+        return {}
+
+    module_names = fit.get("high", []) + fit.get("mid", []) + fit.get("low", [])
+    module_ids = resolve_skill_ids(module_names) if module_names else {}
+    if any(name not in module_ids for name in module_names):
+        return {}
+
+    ship_attrs = _get_type_attrs(ship_type_id)
+    base_cpu = ship_attrs.get(_CPU_OUTPUT_ATTR, 0)
+    base_pg = ship_attrs.get(_PG_OUTPUT_ATTR, 0)
+
+    cpu_mgmt_level = pg_mgmt_level = 0
+    if skill_levels:
+        mgmt_ids = resolve_skill_ids(["CPU Management", "Power Grid Management"])
+        cpu_mgmt_level = skill_levels.get(mgmt_ids.get("CPU Management"), 0)
+        pg_mgmt_level = skill_levels.get(mgmt_ids.get("Power Grid Management"), 0)
+
+    cpu_total = base_cpu * (1 + 0.05 * cpu_mgmt_level)
+    pg_total = base_pg * (1 + 0.05 * pg_mgmt_level)
+
+    cpu_used = 0.0
+    pg_used = 0.0
+    for name in module_names:
+        attrs = _get_type_attrs(module_ids[name])
+        cpu_used += attrs.get(_CPU_USAGE_ATTR, 0)
+        pg_used += attrs.get(_PG_USAGE_ATTR, 0)
+
+    return {
+        "cpu_used": round(cpu_used, 1),
+        "cpu_total": round(cpu_total, 1),
+        "pg_used": round(pg_used, 1),
+        "pg_total": round(pg_total, 1),
+        "cpu_ok": cpu_used <= cpu_total,
+        "pg_ok": pg_used <= pg_total,
+    }
 
 
 def _slot_problems_from_counts(ship_name: str, fit: dict, counts: dict) -> list:
@@ -498,6 +572,7 @@ def _build_report(token: str, char_id: int, char_name: str) -> dict:
                 "missing": missing,
                 "stale": _is_stale(fit),
                 "slot_problems": _slot_problems_from_counts(ship_type_name, fit, slot_counts),
+                "feasibility": estimate_fitting_feasibility(ship_type_name, fit, skill_levels),
             }
             for fit, (score, missing) in (
                 (fit, evaluate_fit(fit, skill_levels, skill_ids)) for fit in ship_entry["fits"]

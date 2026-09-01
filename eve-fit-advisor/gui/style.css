@@ -250,6 +250,37 @@ button:disabled {
   margin: 3px 0;
 }
 
+.feasibility-block {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #0e141b;
+  border-left: 3px solid var(--muted);
+  border-radius: 4px;
+}
+
+.feasibility-block h3 {
+  font-size: 0.85em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.feasibility-block .hint {
+  margin: 8px 0 0 0;
+}
+
+.feas-ok {
+  color: var(--ok);
+  font-size: 0.9em;
+  margin: 3px 0;
+}
+
+.feas-warn {
+  color: var(--danger);
+  font-size: 0.9em;
+  margin: 3px 0;
+}
+
 .stale-note {
   color: var(--gold);
   font-size: 0.85em;
